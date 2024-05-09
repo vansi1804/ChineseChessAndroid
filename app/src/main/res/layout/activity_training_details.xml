@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:orientation="vertical"
+        android:weightSum="20"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:weightSum="6"
+            tools:ignore="NestedWeights">
+
+            <ImageButton
+                android:id="@+id/img_btn_home"
+                style="@style/icon_image_button_style"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/home"
+                tools:ignore="ContentDescription" />
+
+            <ImageButton
+                android:id="@+id/img_btn_back"
+                style="@style/icon_image_button_style"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/back"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/img_btn_home2"
+                style="@style/icon_image_button_style"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                tools:ignore="ContentDescription" />
+
+            <ImageButton
+                android:id="@+id/img_btn_speaker"
+                style="@style/icon_image_button_style"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/speaker_on"
+                tools:ignore="ContentDescription" />
+
+            <ImageButton
+                android:id="@+id/img_btn_music"
+                style="@style/icon_image_button_style"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/music_on"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5"
+            android:orientation="horizontal"
+            tools:ignore="NestedWeights">
+            <TextView
+                android:id="@+id/tv_training_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="@color/teal_200"
+                android:singleLine="true"
+                android:text="title"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold|italic"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_play_board"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="11"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <include layout="@layout/activity_playboard"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="4.5"
+            android:orientation="vertical"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="5"
+                tools:ignore="NestedWeights,UselessLeaf">
+
+                <ImageButton
+                    android:id="@+id/btn_swap_board"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/previous_turn"
+                    tools:ignore="ContentDescription,NestedWeights" />
+
+                <TextView
+                    android:id="@+id/tv_move_description"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold|italic"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <ImageButton
+                    android:id="@+id/btn_previous_turn"
+                    style="@style/icon_image_button_training_detail_control_style"
+                    android:background="@drawable/previous_turn"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv_turn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0/turns"
+                    android:textColor="@color/white"
+                    android:textSize="40sp"
+                    android:textStyle="italic"
+                    tools:ignore="HardcodedText,NestedWeights" />
+
+                <ImageButton
+                    android:id="@+id/btn_next_turn"
+                    style="@style/icon_image_button_training_detail_control_style"
+                    android:background="@drawable/next_turn"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,7 +41,7 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_play_board);
+        setContentView(R.layout.activity_training_details);
 
         imgBtnHome = findViewById(R.id.img_btn_home);
         imgBtnHome.setOnClickListener(this);
