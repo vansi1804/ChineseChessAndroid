@@ -7,7 +7,7 @@ public class TrainingDTO implements Serializable {
     private Long id;
     private String title;
     private Long parentTrainingId;
-    private List<TrainingDTO> childTrainingDTOS;
+    private List<TrainingDTO> childTrainingDTOs;
 
     public TrainingDTO() {
     }
@@ -17,11 +17,11 @@ public class TrainingDTO implements Serializable {
         this.title = title;
         this.parentTrainingId = parentTrainingId;
     }
-    public TrainingDTO(Long id, String title, Long parentTrainingId, List<TrainingDTO> childTrainingDTOS) {
+    public TrainingDTO(Long id, String title, Long parentTrainingId, List<TrainingDTO> childTrainingDTOs) {
         this.id = id;
         this.title = title;
         this.parentTrainingId = parentTrainingId;
-        this.childTrainingDTOS = childTrainingDTOS;
+        this.childTrainingDTOs = childTrainingDTOs;
     }
 
     public Long getId() {
@@ -49,10 +49,10 @@ public class TrainingDTO implements Serializable {
     }
 
     public List<TrainingDTO> getChildTrainings() {
-        return childTrainingDTOS;
+        return childTrainingDTOs;
     }
 
-    public void setChildTrainings(List<TrainingDTO> childTrainingDTOS) {
-        this.childTrainingDTOS = childTrainingDTOS;
+    public void setChildTrainings(List<TrainingDTO> childTrainingDTOs) {
+        this.childTrainingDTOs = childTrainingDTOs;
     }
 }

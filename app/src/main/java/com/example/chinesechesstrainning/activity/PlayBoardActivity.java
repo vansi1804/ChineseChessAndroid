@@ -15,8 +15,8 @@ import com.example.chinesechesstrainning.model.PieceDTO;
 import com.example.chinesechesstrainning.model.PlayBoardDTO;
 import com.example.chinesechesstrainning.model.move.MoveHistoryDTO;
 import com.example.chinesechesstrainning.model.training.TrainingDetailDTO;
-import com.example.chinesechesstrainning.service.MusicService;
-import com.example.chinesechesstrainning.service.SpeakerService;
+import com.example.chinesechesstrainning.service.media.MusicService;
+import com.example.chinesechesstrainning.service.media.SpeakerService;
 import com.example.chinesechesstrainning.support.Support;
 
 public class PlayBoardActivity extends AppCompatActivity implements View.OnClickListener {

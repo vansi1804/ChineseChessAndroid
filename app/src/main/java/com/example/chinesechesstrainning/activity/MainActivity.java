@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.chinesechesstrainning.R;
 import com.example.chinesechesstrainning.adapter.TrainingItemAdapter;
 import com.example.chinesechesstrainning.model.training.TrainingDTO;
-import com.example.chinesechesstrainning.service.MusicService;
+import com.example.chinesechesstrainning.service.media.MusicService;
 import com.example.chinesechesstrainning.support.Support;
 
 import java.util.ArrayList;
