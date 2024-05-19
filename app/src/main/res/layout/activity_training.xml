@@ -3,8 +3,7 @@
 
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activity.MainActivity">
+        android:layout_height="match_parent">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -32,11 +31,29 @@
                     android:weightSum="7"
                     tools:ignore="NestedWeights">
 
+                <ImageButton
+                        android:id="@+id/img_btn_home"
+                        style="@style/icon_image_button_style"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/home"
+                        tools:ignore="ContentDescription" />
+
+                <ImageButton
+                        android:id="@+id/img_btn_back"
+                        style="@style/icon_image_button_style"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/back"
+                        tools:ignore="ContentDescription" />
+
                 <TextView
                         style="@style/icon_image_button_style"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="5"
+                        android:layout_weight="3"
                         tools:ignore="ContentDescription" />
 
                 <ImageButton
@@ -58,6 +75,7 @@
                         tools:ignore="ContentDescription" />
             </LinearLayout>
 
+
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -66,13 +84,44 @@
                     tools:layout_editor_absoluteX="1dp"
                     tools:layout_editor_absoluteY="1dp">
 
-                <Button
-                    android:id="@+id/btn_training"
+                <LinearLayout
+                        android:id="@+id/layout_active"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Training"/>
+                        android:layout_height="0dp"
+                        android:layout_weight="18"
+                        android:weightSum="20"
+                        android:orientation="vertical"
+                        tools:ignore="NestedWeights">
 
+                    <TextView
+                            android:id="@+id/tv_training_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="5"
+                            android:layout_marginTop="70dp"
+                            android:ellipsize="marquee"
+                            android:gravity="center"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="@color/teal_200"
+                            android:singleLine="true"
+                            android:text="title"
+                            android:textColor="@color/white"
+                            android:textSize="30sp"
+                            android:textStyle="bold|italic"
+                            tools:ignore="HardcodedText,NestedWeights" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rc_training_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="0sp"
+                            android:layout_weight="13"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="200dp"
+                            tools:ignore="NestedWeights" />
                 </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

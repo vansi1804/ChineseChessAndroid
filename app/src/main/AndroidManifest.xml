@@ -41,6 +41,10 @@
             android:name=".activity.PlayBoardActivity"
             android:exported="true">
         </activity>
+        <activity
+                android:name=".activity.TrainingActivity"
+                android:exported="true">
+        </activity>
 
     </application>
 

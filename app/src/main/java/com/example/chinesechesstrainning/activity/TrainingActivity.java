@@ -30,21 +30,28 @@ public class TrainingActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView recyclerView;
     private List<TrainingDTO> trainingDTOs;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_training);
+
         imgBtnHome = findViewById(R.id.img_btn_home);
         imgBtnHome.setOnClickListener(this);
+
         imgBtnBack = findViewById(R.id.img_btn_back);
         imgBtnBack.setOnClickListener(this);
+
         imgBtnSpeaker = findViewById(R.id.img_btn_speaker);
         imgBtnSpeaker.setOnClickListener(this);
+
         imgBtnMusic = findViewById(R.id.img_btn_music);
         imgBtnMusic.setOnClickListener(this);
+
         tvTrainingTitle = findViewById(R.id.tv_training_title);
         tvTrainingTitle.setSelected(true);
+
         recyclerView = findViewById(R.id.rc_training_item);
 
         if (getIntent().getExtras() != null) {
@@ -53,32 +60,18 @@ public class TrainingActivity extends AppCompatActivity implements View.OnClickL
 
             TrainingDTO trainingDTO = Support.findTrainingById(getIntent().getExtras().getLong("trainingId"));
             if (trainingDTO == null || trainingDTO.getParentTrainingId() == null) {
-                imgBtnHome.setVisibility(View.INVISIBLE);
-                imgBtnBack.setVisibility(View.INVISIBLE);
                 tvTrainingTitle.setText(null);
                 trainingDTOs = Support.findAllChildrenTrainingByParentTrainingId(null);
             } else {
-                imgBtnHome.setVisibility(View.VISIBLE);
-                imgBtnBack.setVisibility(View.VISIBLE);
-                String title = getIntent().getExtras().getString("title").replace('-', ' ');
-                tvTrainingTitle.setText(title.substring(0, title.lastIndexOf('-')));
+                tvTrainingTitle.setText(getIntent().getExtras().getString("title"));
                 trainingDTOs = Support.findAllChildrenTrainingByParentTrainingId(trainingDTO.getParentTrainingId());
             }
 
-            getIntent().removeExtra("title");
-            getIntent().removeExtra("speaker");
-            getIntent().removeExtra("music");
-            getIntent().removeExtra("trainingId");
-
+            getIntent().getExtras().clear();
         } else {
-            imgBtnHome.setVisibility(View.INVISIBLE);
-            imgBtnBack.setVisibility(View.INVISIBLE);
-
             imgBtnMusic.setTag("off");
             imgBtnSpeaker.setTag("off");
-
             tvTrainingTitle.setText(null);
-
             trainingDTOs = Support.findAllChildrenTrainingByParentTrainingId(null);
         }
 
@@ -91,29 +84,30 @@ public class TrainingActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (v == imgBtnHome) {
-            imgBtnBack.setVisibility(View.INVISIBLE);
-            imgBtnHome.setVisibility(View.INVISIBLE);
-            tvTrainingTitle.setText(null);
-            trainingDTOs = Support.findTrainingById(null).getChildTrainings();
-            setMatchesIntoRecyclerView(trainingDTOs);
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
+            intent.putExtra("music", imgBtnMusic.getTag().toString());
 
+            startActivity(intent);
         } else if (v == imgBtnBack) {
             TrainingDTO parentTrainingDTO = Support.findTrainingById(trainingDTOs.get(0).getParentTrainingId());
-            trainingDTOs = Support.findAllChildrenTrainingByParentTrainingId(parentTrainingDTO.getParentTrainingId());
+            if (parentTrainingDTO == null){
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
+                intent.putExtra("music", imgBtnMusic.getTag().toString());
 
-            if (trainingDTOs.get(0).getParentTrainingId() == null) {
-                imgBtnHome.setVisibility(View.INVISIBLE);
-                imgBtnBack.setVisibility(View.INVISIBLE);
+                startActivity(intent);
+            }else{
+                trainingDTOs = Support.findAllChildrenTrainingByParentTrainingId(parentTrainingDTO.getParentTrainingId());
+                int lastedEnterChar = tvTrainingTitle.getText().toString().lastIndexOf('-');
+                if (lastedEnterChar > 0) {
+                    tvTrainingTitle.setText(tvTrainingTitle.getText().toString().substring(0, lastedEnterChar));
+                } else {
+                    tvTrainingTitle.setText("");
+                }
+
+                setMatchesIntoRecyclerView(trainingDTOs);
             }
-
-            int lastedEnterChar = tvTrainingTitle.getText().toString().lastIndexOf('-');
-            if (lastedEnterChar > 0) {
-                tvTrainingTitle.setText(tvTrainingTitle.getText().toString().substring(0, lastedEnterChar));
-            } else {
-                tvTrainingTitle.setText("");
-            }
-
-            setMatchesIntoRecyclerView(trainingDTOs);
         } else if (v == imgBtnSpeaker) {
             setImgBtnSpeakerService(imgBtnSpeaker.getTag().equals("on") ? "off" : "on");
         } else if (v == imgBtnMusic) {
@@ -155,7 +149,9 @@ public class TrainingActivity extends AppCompatActivity implements View.OnClickL
         imgBtnMusic.setTag(tag);
         if (imgBtnMusic.getTag().toString().equals("on")) {
             imgBtnMusic.setBackground(getDrawable(R.drawable.music_on));
-            startService(new Intent(this, MusicService.class));
+            if (MusicService.getInstance() == null) {
+                startService(new Intent(this, MusicService.class));
+            }
         } else {
             imgBtnMusic.setBackground(getDrawable(R.drawable.music_off));
             stopService(new Intent(this, MusicService.class));

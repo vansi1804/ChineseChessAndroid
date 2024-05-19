@@ -14,10 +14,13 @@ import com.example.chinesechesstrainning.R;
 import com.example.chinesechesstrainning.model.PieceDTO;
 import com.example.chinesechesstrainning.model.PlayBoardDTO;
 import com.example.chinesechesstrainning.model.move.MoveHistoryDTO;
+import com.example.chinesechesstrainning.model.training.TrainingDTO;
 import com.example.chinesechesstrainning.model.training.TrainingDetailDTO;
 import com.example.chinesechesstrainning.service.media.MusicService;
 import com.example.chinesechesstrainning.service.media.SpeakerService;
 import com.example.chinesechesstrainning.support.Support;
+
+import java.lang.reflect.Method;
 
 public class PlayBoardActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int ROW = 10;
@@ -30,7 +33,7 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
     private static ImageButton[][] imagePlayBoard;
     private TrainingDetailDTO trainingDetailDTO;
     private ImageButton imgBtnSwapBoard;
-    private Long currentTurn;
+    private Long currentTurn = 0L;
     private TextView tvTurn;
     private TextView tvMoveDescription;
     private ImageButton imgBtnPreviousTurn;
@@ -51,15 +54,28 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
 
         imgBtnSpeaker = findViewById(R.id.img_btn_speaker);
         imgBtnSpeaker.setOnClickListener(this);
-        setImgBtnSpeakerService(getIntent().getExtras().getString("speaker"));
 
         imgBtnMusic = findViewById(R.id.img_btn_music);
         imgBtnMusic.setOnClickListener(this);
-        setImgBtnMusicService(getIntent().getExtras().getString("music"));
 
         tvTrainingTitle = findViewById(R.id.tv_training_title);
-        tvTrainingTitle.setText(getIntent().getExtras().getString("title"));
         tvTrainingTitle.setSelected(true);
+
+        if (getIntent().getExtras() != null) {
+            imgBtnSpeaker.setTag(getIntent().getExtras().getString("speaker"));
+            imgBtnMusic.setTag(getIntent().getExtras().getString("music"));
+            tvTrainingTitle.setText(getIntent().getExtras().getString("title"));
+            trainingDetailDTO = Support.findTrainingDetailById(getIntent().getExtras().getLong("trainingId"));
+
+            getIntent().getExtras().clear();
+        } else {
+            imgBtnMusic.setTag("off");
+            imgBtnSpeaker.setTag("off");
+            tvTrainingTitle.setText(null);
+        }
+
+        setImgBtnMusicService(getIntent().getExtras().getString("speaker"));
+        setImgBtnSpeakerService(getIntent().getExtras().getString("music"));
 
         imagePlayBoard = new ImageButton[COL][ROW];
         mapImageButtonPlayBoard(false);
@@ -68,9 +84,6 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
         imgBtnSwapBoard.setTag("false");
         imgBtnSwapBoard.setOnClickListener(this);
 
-        trainingDetailDTO = Support.findTrainingDetailById(getIntent().getExtras().getLong("trainingId"));
-
-        currentTurn = 0L;
         tvTurn = findViewById(R.id.tv_turn);
 
         tvMoveDescription = findViewById(R.id.tv_move_description);
@@ -81,38 +94,29 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
         imgBtnNextTurn = findViewById(R.id.btn_next_turn);
         imgBtnNextTurn.setOnClickListener(this);
         buildTurnEvent(currentTurn);
-
-        getIntent().removeExtra("title");
-        getIntent().removeExtra("speaker");
-        getIntent().removeExtra("music");
-        getIntent().removeExtra("trainingId");
     }
 
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     public void onClick(View v) {
-        if (v == imgBtnHome || v == imgBtnBack) {
-            if (imgBtnMusic.getTag().toString().equals("on")) {
-                stopService(new Intent(this, MusicService.class));
-            }
-
+        if (v == imgBtnHome) {
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("title", tvTrainingTitle.getText().toString());
             intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
             intent.putExtra("music", imgBtnMusic.getTag().toString());
-            if (v == imgBtnHome) {
-                intent.putExtra("trainingId", 0);
-            } else {
-                intent.putExtra("trainingId", trainingDetailDTO.getTrainingDTO().getId());
-            }
-            startActivity(intent);
 
+            startActivity(intent);
+        } else if (v == imgBtnBack) {
+            Intent intent = new Intent(this, TrainingActivity.class);
+            intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
+            intent.putExtra("music", imgBtnMusic.getTag().toString());
+            intent.putExtra("title", tvTrainingTitle.getText().toString());
+            intent.putExtra("trainingId", trainingDetailDTO.getTrainingDTO().getId());
+
+            startActivity(intent);
         } else if (v == imgBtnSpeaker) {
             setImgBtnSpeakerService(imgBtnSpeaker.getTag().equals("on") ? "off" : "on");
-
         } else if (v == imgBtnMusic) {
             setImgBtnMusicService(imgBtnMusic.getTag().equals("on") ? "off" : "on");
-
         } else if (v == imgBtnSwapBoard) {
             if (imgBtnSwapBoard.getTag().equals("true")) {
                 imgBtnSwapBoard.setTag("false");
@@ -121,6 +125,7 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
                 imgBtnSwapBoard.setTag("true");
                 mapImageButtonPlayBoard(true);
             }
+
             buildTurnEvent(currentTurn);
         } else if (v == imgBtnPreviousTurn || v == imgBtnNextTurn) {
             if (imgBtnSpeaker.getTag().toString().equals("on")) {
@@ -226,7 +231,9 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
         imgBtnMusic.setTag(tag);
         if (imgBtnMusic.getTag().toString().equals("on")) {
             imgBtnMusic.setBackground(getDrawable(R.drawable.music_on));
-            startService(new Intent(this, MusicService.class));
+            if (MusicService.getInstance() == null) {
+                startService(new Intent(this, MusicService.class));
+            }
         } else {
             imgBtnMusic.setBackground(getDrawable(R.drawable.music_off));
             stopService(new Intent(this, MusicService.class));

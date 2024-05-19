@@ -34,4 +34,10 @@
         <item name="android:layout_marginStart">5sp</item>
         <item name="android:layout_marginEnd">5sp</item>
     </style>
+    <style name="TrainingTitleTextView" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">35sp</item>
+        <item name="android:background">@drawable/title_background</item>
+    </style>
+
 </resources>
