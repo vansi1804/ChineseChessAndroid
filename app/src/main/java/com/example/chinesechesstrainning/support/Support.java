@@ -80,12 +80,12 @@ public class Support {
     public static TrainingDTO findTrainingById(Long id) {
         return DataTest.trainingData().stream()
                 .filter(t -> t.getId().equals(id))
-                .peek(t -> t.setChildTrainings(findAllChildrenTrainingByParentTrainingId(t.getId())))
+                .peek(t -> t.setChildTrainingDTOs(findAllByParentTrainingId(t.getId())))
                 .findFirst()
                 .orElse(null);
     }
 
-    public static List<TrainingDTO> findAllChildrenTrainingByParentTrainingId(Long parentTrainingId) {
+    public static List<TrainingDTO> findAllByParentTrainingId(Long parentTrainingId) {
         return DataTest.trainingData().stream()
                 .filter(t -> Objects.equals(t.getParentTrainingId(), parentTrainingId))
                 .collect(Collectors.toList());
@@ -114,7 +114,7 @@ public class Support {
 
         boolean isCheckMate = false;
 
-        return new MoveHistoryDTO(movingPieceDTO, toCol, toRow, currentBoardDTO.get(), deadPieceDTO, checkedGeneralPieceDTO, isCheckMate, 0, description, lastDeadPieceDTOs);
+        return new MoveHistoryDTO();
     }
 
     public static TrainingDetailDTO findTrainingDetailById(long id) {
@@ -127,7 +127,8 @@ public class Support {
     public static PlayBoardDTO generatePlayBoard() {
         PlayBoardDTO playBoardDTO = new PlayBoardDTO();
 
-        DataTest.pieceData().forEach(piece -> playBoardDTO.getState()[piece.getCurrentCol()][piece.getCurrentRow()] = new PieceDTO(piece));
+        DataTest.pieceData().forEach(
+                piece -> playBoardDTO.getState()[piece.getCurrentCol()][piece.getCurrentRow()] = new PieceDTO(piece));
 
         return playBoardDTO;
     }

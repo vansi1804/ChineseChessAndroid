@@ -5,34 +5,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chinesechesstrainning.R;
-import com.example.chinesechesstrainning.adapter.TrainingItemAdapter;
-import com.example.chinesechesstrainning.model.training.TrainingDTO;
-import com.example.chinesechesstrainning.service.media.MusicService;
-import com.example.chinesechesstrainning.support.Support;
+import com.example.chinesechesstrainning.activity.header.HeaderActivity;
+import com.example.chinesechesstrainning.enumerable.MediaStatus;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MainActivity extends HeaderActivity {
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private ImageButton imgBtnSpeaker;
-    private ImageButton imgBtnMusic;
     private Button btnTraining;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        imgBtnHome = findViewById(R.id.img_btn_home);
+        imgBtnHome.setVisibility(View.INVISIBLE);
+
+        imgBtnBack = findViewById(R.id.img_btn_back);
+        imgBtnBack.setVisibility(View.INVISIBLE);
 
         imgBtnSpeaker = findViewById(R.id.img_btn_speaker);
         imgBtnSpeaker.setOnClickListener(this);
@@ -49,51 +41,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             getIntent().getExtras().clear();
         } else {
-            imgBtnSpeaker.setTag("off");
-            imgBtnMusic.setTag("off");
+            imgBtnSpeaker.setTag(MediaStatus.OFF);
+            imgBtnMusic.setTag(MediaStatus.OFF);
         }
 
-        setImgBtnMusicService(imgBtnMusic.getTag().toString());
-        setImgBtnSpeakerService(imgBtnSpeaker.getTag().toString());
+        setSpeaker((MediaStatus) imgBtnSpeaker.getTag());
+        setMusic((MediaStatus) imgBtnSpeaker.getTag());
     }
 
     @Override
     public void onClick(View v) {
-        if (v == imgBtnSpeaker) {
-            setImgBtnSpeakerService(imgBtnSpeaker.getTag().equals("on") ? "off" : "on");
-        } else if (v == imgBtnMusic) {
-            setImgBtnMusicService(imgBtnMusic.getTag().equals("on") ? "off" : "on");
-        } else if (v == btnTraining) {
-            Intent intent = new Intent(this, TrainingActivity.class);
-            intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
-            intent.putExtra("music", imgBtnMusic.getTag().toString());
-            startActivity(intent);
-        }
-
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void setImgBtnMusicService(String tag) {
-        imgBtnMusic.setTag(tag);
-        if (imgBtnMusic.getTag().toString().equals("on")) {
-            imgBtnMusic.setBackground(getDrawable(R.drawable.music_on));
-            if (MusicService.getInstance() == null) {
-                startService(new Intent(this, MusicService.class));
-            }
-        } else {
-            imgBtnMusic.setBackground(getDrawable(R.drawable.music_off));
-            stopService(new Intent(this, MusicService.class));
+        super.onClick(v);
+        if (v == btnTraining) {
+            trainingOnClick();
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void setImgBtnSpeakerService(String tag) {
-        imgBtnSpeaker.setTag(tag);
-        if (imgBtnSpeaker.getTag().toString().equals("on")) {
-            imgBtnSpeaker.setBackground(getDrawable(R.drawable.speaker_on));
-        } else {
-            imgBtnSpeaker.setBackground(getDrawable(R.drawable.speaker_off));
-        }
+    @Override
+    protected void setBackOnClick() {
+
+    }
+
+    public void trainingOnClick(){
+        Intent intent = new Intent(this, TrainingActivity.class);
+        intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
+        intent.putExtra("music", imgBtnMusic.getTag().toString());
+        startActivity(intent);
     }
 
 }

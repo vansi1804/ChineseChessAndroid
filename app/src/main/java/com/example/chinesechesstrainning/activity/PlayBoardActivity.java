@@ -197,8 +197,8 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
         MoveHistoryDTO moveHistoryDTO = trainingDetailDTO.getMoveHistoryDTOs().get(turn);
         if (moveHistoryDTO != null) {
             tvMoveDescription.setText(moveHistoryDTO.getDescription());
-            PieceDTO movingPieceDTO = moveHistoryDTO.getMovedPieceDTO();
-            PlayBoardDTO updatedPlayBoardDTO = moveHistoryDTO.getCurrentBoardDTO();
+            PieceDTO movingPieceDTO = moveHistoryDTO.getMovingPieceDTO();
+            PlayBoardDTO updatedPlayBoardDTO = moveHistoryDTO.getPlayBoardDTO();
             setImagePlayBoard(movingPieceDTO, updatedPlayBoardDTO);
         } else {
             tvMoveDescription.setText(null);

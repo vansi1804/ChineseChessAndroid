@@ -3,6 +3,8 @@ package com.example.chinesechesstrainning.model.move;
 import com.example.chinesechesstrainning.model.PieceDTO;
 import com.example.chinesechesstrainning.model.PlayBoardDTO;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class MoveDTO {
+public class MoveDTO implements Serializable {
 
     private PieceDTO movingPieceDTO;
 

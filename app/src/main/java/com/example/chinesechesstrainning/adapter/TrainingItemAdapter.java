@@ -55,7 +55,7 @@ public class TrainingItemAdapter extends RecyclerView.Adapter<TrainingItemAdapte
             title = itemView.findViewById(R.id.tv_training_title);
         }
         public void bind(final TrainingDTO trainingDTOItem, final IMatchItemOnClick matchItemOnClick) {
-            title.setText(trainingDTOItem.getTitle().replaceAll("Tuyển tập","Tuyển tập\n"));
+            title.setText(trainingDTOItem.getTitle());
             itemView.setOnClickListener(v -> matchItemOnClick.setClick(trainingDTOItem));
         }
     }

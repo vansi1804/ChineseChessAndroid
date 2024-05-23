@@ -1,21 +1,15 @@
 package com.example.chinesechesstrainning.model;
 
-public class PlayBoardDTO {
+import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
+public class PlayBoardDTO implements Serializable {
+
     private PieceDTO[][] state;
-
-    public PlayBoardDTO(PieceDTO[][] state) {
-        this.state = state;
-    }
-
-    public PlayBoardDTO() {
-        state = new PieceDTO[9][10];
-    }
-
-    public PieceDTO[][] getState() {
-        return state;
-    }
-
-    public void setState(PieceDTO[][] state) {
-        this.state = state;
-    }
 }
