@@ -41,12 +41,12 @@ public class MainActivity extends HeaderActivity {
 
             getIntent().getExtras().clear();
         } else {
-            imgBtnSpeaker.setTag(MediaStatus.OFF);
-            imgBtnMusic.setTag(MediaStatus.OFF);
+            imgBtnSpeaker.setTag(MediaStatus.OFF.name());
+            imgBtnMusic.setTag(MediaStatus.OFF.name());
         }
 
-        setSpeaker((MediaStatus) imgBtnSpeaker.getTag());
-        setMusic((MediaStatus) imgBtnSpeaker.getTag());
+        setSpeaker(MediaStatus.valueOf(imgBtnSpeaker.getTag().toString()));
+        setMusic(MediaStatus.valueOf(imgBtnMusic.getTag().toString()));
     }
 
     @Override

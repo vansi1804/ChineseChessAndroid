@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/layout_match_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+    android:id="@+id/layout_match_item"
+    android:layout_width="match_parent"
+    android:layout_height="275dp"
+    android:padding="20dp"
+    android:gravity="center"
+    android:background="@drawable/training_item">
 
     <TextView
-            android:id="@+id/tv_training_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Tiêu đề"
-            android:textStyle="bold"
-            style="@style/TrainingTitleTextView" />
+        android:id="@+id/tv_training_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:text="Title"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:gravity="center" />
 </LinearLayout>

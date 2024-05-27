@@ -55,17 +55,7 @@ public class DataTest {
                 1L,
                 "Tuyển tập pháo đầu",
                 null,
-                new ArrayList<TrainingDTO>() {{
-                    add(new TrainingDTO(
-                            4L,
-                            "Thuận pháo",
-                            1L,
-                            new ArrayList<TrainingDTO>() {{
-                                add(new TrainingDTO(6L, "Trận 1", 4L, new ArrayList<>()));
-                                add(new TrainingDTO(7L, "Trận 1", 5L, new ArrayList<>()));
-                            }}));
-                    add(new TrainingDTO(5L, "Nghịch pháo", 1L, new ArrayList<>()));
-                }}
+                new ArrayList<>()
         ));
         trainingDTOS.add(new TrainingDTO(
                 2L,
@@ -79,7 +69,30 @@ public class DataTest {
                 null,
                 new ArrayList<TrainingDTO>()
         ));
-
+        trainingDTOS.add(new TrainingDTO(
+                4L,
+                "Thuận pháo",
+                1L,
+                new ArrayList<TrainingDTO>()
+        ));
+        trainingDTOS.add(new TrainingDTO(
+                5L,
+                "Nghịch pháo",
+                1L,
+                new ArrayList<TrainingDTO>()
+        ));
+        trainingDTOS.add(new TrainingDTO(
+                6L,
+                "Bài 1",
+                4L,
+                new ArrayList<TrainingDTO>()
+        ));
+        trainingDTOS.add(new TrainingDTO(
+                7L,
+                "Bài 2",
+                4L,
+                new ArrayList<TrainingDTO>()
+        ));
         return trainingDTOS;
     }
 
