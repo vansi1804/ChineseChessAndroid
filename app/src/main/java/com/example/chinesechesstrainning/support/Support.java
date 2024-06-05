@@ -62,7 +62,7 @@ public class Support {
 
         updatePlayBoardDTO.getState()[pieceDTO.getCurrentCol()][pieceDTO.getCurrentRow()] = null;
 
-        PieceDTO updatedPieceDTO = new PieceDTO(pieceDTO);
+        PieceDTO updatedPieceDTO = pieceDTO.toBuilder().build();
         updatedPieceDTO.setCurrentCol(toCol);
         updatedPieceDTO.setCurrentRow(toRow);
 
@@ -114,7 +114,16 @@ public class Support {
 
         boolean isCheckMate = false;
 
-        return new MoveHistoryDTO();
+        MoveHistoryDTO moveHistoryDTO = new MoveHistoryDTO();
+        moveHistoryDTO.setMovingPieceDTO(movingPieceDTO);
+        moveHistoryDTO.setDescription(description);
+        moveHistoryDTO.setLastDeadPieceDTOs(lastDeadPieceDTOs);
+        moveHistoryDTO.setDeadPieceDTO(deadPieceDTO);
+        moveHistoryDTO.setPlayBoardDTO(updatedPlayBoardDTO);
+        moveHistoryDTO.setCheckedGeneralPieceDTO(checkedGeneralPieceDTO);
+        moveHistoryDTO.setCheckmateState(isCheckMate);
+
+        return moveHistoryDTO;
     }
 
     public static TrainingDetailDTO findTrainingDetailById(long id) {
@@ -125,10 +134,10 @@ public class Support {
     }
 
     public static PlayBoardDTO generatePlayBoard() {
-        PlayBoardDTO playBoardDTO = new PlayBoardDTO();
+        PlayBoardDTO playBoardDTO = new PlayBoardDTO(new PieceDTO[9][10]);
 
         DataTest.pieceData().forEach(
-                piece -> playBoardDTO.getState()[piece.getCurrentCol()][piece.getCurrentRow()] = new PieceDTO(piece));
+                piece -> playBoardDTO.getState()[piece.getCurrentCol()][piece.getCurrentRow()] = piece.toBuilder().build());
 
         return playBoardDTO;
     }
@@ -144,9 +153,9 @@ public class Support {
         Map<Long, MoveHistoryDTO> moveHistoryDTOs = new HashMap<>();
         long turn = 1;
         for (TrainingMoveCreationDTO trainingMoveCreationDTO : trainingMoveCreationDTOs) {
-            MoveHistoryDTO moveHistoryDTO  = buildMoveHistory(currentBoard, trainingMoveCreationDTO.getPieceId(), trainingMoveCreationDTO.getToCol(), trainingMoveCreationDTO.getToRow());
+            MoveHistoryDTO moveHistoryDTO = buildMoveHistory(currentBoard, trainingMoveCreationDTO.getPieceId(), trainingMoveCreationDTO.getToCol(), trainingMoveCreationDTO.getToRow());
             moveHistoryDTO.setTurn(turn);
-            moveHistoryDTOs.put(moveHistoryDTO.getTurn(),moveHistoryDTO);
+            moveHistoryDTOs.put(moveHistoryDTO.getTurn(), moveHistoryDTO);
             turn++;
         }
         trainingDetailDTO.setMoveHistoryDTOs(moveHistoryDTOs);

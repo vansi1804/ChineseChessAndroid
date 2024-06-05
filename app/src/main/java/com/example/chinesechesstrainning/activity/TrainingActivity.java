@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chinesechesstrainning.R;
-import com.example.chinesechesstrainning.activity.header.HeaderActivity;
 import com.example.chinesechesstrainning.adapter.TrainingItemAdapter;
 import com.example.chinesechesstrainning.api.TrainingAPI;
 import com.example.chinesechesstrainning.enumerable.MediaStatus;
@@ -64,18 +63,16 @@ public class TrainingActivity extends HeaderActivity {
 
             TrainingDTO trainingDTO = Support.findTrainingById(getIntent().getExtras().getLong("trainingId"));
             if (trainingDTO == null || trainingDTO.getParentTrainingId() == null) {
-                tvTrainingTitle.setText(null);
                 trainingDTOs = Support.findAllByParentTrainingId(null);
             } else {
-                tvTrainingTitle.setText(getIntent().getExtras().getString("title"));
                 trainingDTOs = Support.findAllByParentTrainingId(trainingDTO.getParentTrainingId());
             }
+            tvTrainingTitle.setText(getIntent().getExtras().getString("title"));
 
             getIntent().getExtras().clear();
         } else {
             imgBtnMusic.setTag(MediaStatus.OFF.name());
             imgBtnSpeaker.setTag(MediaStatus.OFF.name());
-            tvTrainingTitle.setText(null);
             trainingDTOs = Support.findAllByParentTrainingId(null);
         }
 
@@ -87,15 +84,7 @@ public class TrainingActivity extends HeaderActivity {
 
     @Override
     public void onClick(View v) {
-        if (v == imgBtnHome) {
-            setHomeOnClick();
-        } else if (v == imgBtnBack) {
-            setBackOnClick();
-        } else if (v == imgBtnSpeaker) {
-            setSpeaker(MediaStatus.ON.equals(imgBtnSpeaker.getTag()) ? MediaStatus.OFF : MediaStatus.ON);
-        } else if (v == imgBtnMusic) {
-            setMusic(MediaStatus.ON.equals(imgBtnMusic.getTag()) ? MediaStatus.OFF : MediaStatus.ON);
-        }
+        super.onClick(v);
     }
 
     @Override
@@ -128,7 +117,7 @@ public class TrainingActivity extends HeaderActivity {
                 setMatchesIntoRecyclerView(trainingDTO.getChildTrainingDTOs());
                 trainingDTOs = trainingDTO.getChildTrainingDTOs();
             } else {
-                Intent intent = new Intent(this, PlayBoardActivity.class);
+                Intent intent = new Intent(this, TrainingDetailsActivity.class);
                 intent.putExtra("title", title);
                 intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
                 intent.putExtra("music", imgBtnMusic.getTag().toString());

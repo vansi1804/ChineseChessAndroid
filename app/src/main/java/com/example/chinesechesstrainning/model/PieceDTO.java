@@ -3,9 +3,11 @@ package com.example.chinesechesstrainning.model;
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
@@ -18,12 +20,4 @@ public class PieceDTO implements Serializable {
     private int currentRow;
     private int image;
 
-    public PieceDTO(PieceDTO pieceDTO){
-        setId(pieceDTO.getId());
-        setName(pieceDTO.getName());
-        setRed(pieceDTO.isRed());
-        setCurrentCol(pieceDTO.getCurrentCol());
-        setCurrentRow(pieceDTO.getCurrentRow());
-        setImage(pieceDTO.getImage());
-    }
 }

@@ -8,43 +8,36 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chinesechesstrainning.R;
+import com.example.chinesechesstrainning.enumerable.MediaStatus;
 import com.example.chinesechesstrainning.model.PieceDTO;
 import com.example.chinesechesstrainning.model.PlayBoardDTO;
 import com.example.chinesechesstrainning.model.move.MoveHistoryDTO;
-import com.example.chinesechesstrainning.model.training.TrainingDTO;
 import com.example.chinesechesstrainning.model.training.TrainingDetailDTO;
 import com.example.chinesechesstrainning.service.media.MusicService;
 import com.example.chinesechesstrainning.service.media.SpeakerService;
 import com.example.chinesechesstrainning.support.Support;
 
-import java.lang.reflect.Method;
-
-public class PlayBoardActivity extends AppCompatActivity implements View.OnClickListener {
+public class TrainingDetailsActivity extends HeaderActivity {
     private static final int ROW = 10;
     private static final int COL = 9;
-    private ImageButton imgBtnBack;
-    private ImageButton imgBtnHome;
-    private ImageButton imgBtnSpeaker;
-    private ImageButton imgBtnMusic;
+
     private TextView tvTrainingTitle;
     private static ImageButton[][] imagePlayBoard;
-    private TrainingDetailDTO trainingDetailDTO;
     private ImageButton imgBtnSwapBoard;
     private Long currentTurn = 0L;
     private TextView tvTurn;
     private TextView tvMoveDescription;
     private ImageButton imgBtnPreviousTurn;
     private ImageButton imgBtnNextTurn;
+    private TrainingDetailDTO trainingDetailDTO;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_play_board);
+        setContentView(R.layout.activity_training_details);
 
         imgBtnHome = findViewById(R.id.img_btn_home);
         imgBtnHome.setOnClickListener(this);
@@ -61,22 +54,6 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
         tvTrainingTitle = findViewById(R.id.tv_training_title);
         tvTrainingTitle.setSelected(true);
 
-        if (getIntent().getExtras() != null) {
-            imgBtnSpeaker.setTag(getIntent().getExtras().getString("speaker"));
-            imgBtnMusic.setTag(getIntent().getExtras().getString("music"));
-            tvTrainingTitle.setText(getIntent().getExtras().getString("title"));
-            trainingDetailDTO = Support.findTrainingDetailById(getIntent().getExtras().getLong("trainingId"));
-
-            getIntent().getExtras().clear();
-        } else {
-            imgBtnMusic.setTag("off");
-            imgBtnSpeaker.setTag("off");
-            tvTrainingTitle.setText(null);
-        }
-
-        setImgBtnMusicService(getIntent().getExtras().getString("speaker"));
-        setImgBtnSpeakerService(getIntent().getExtras().getString("music"));
-
         imagePlayBoard = new ImageButton[COL][ROW];
         mapImageButtonPlayBoard(false);
 
@@ -85,7 +62,6 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
         imgBtnSwapBoard.setOnClickListener(this);
 
         tvTurn = findViewById(R.id.tv_turn);
-
         tvMoveDescription = findViewById(R.id.tv_move_description);
 
         imgBtnPreviousTurn = findViewById(R.id.btn_previous_turn);
@@ -93,56 +69,61 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
 
         imgBtnNextTurn = findViewById(R.id.btn_next_turn);
         imgBtnNextTurn.setOnClickListener(this);
+
+        if (getIntent().getExtras() != null) {
+            imgBtnSpeaker.setTag(getIntent().getExtras().getString("speaker"));
+            imgBtnMusic.setTag(getIntent().getExtras().getString("music"));
+            tvTrainingTitle.setText(getIntent().getExtras().getString("title"));
+            trainingDetailDTO = Support.findTrainingDetailById(getIntent().getExtras().getLong("trainingId"));
+
+            getIntent().getExtras().clear();
+        } else {
+            imgBtnMusic.setTag(MediaStatus.OFF.name());
+            imgBtnSpeaker.setTag(MediaStatus.OFF.name());
+            tvTrainingTitle.setText(null);
+        }
+
+        setSpeaker(MediaStatus.valueOf(imgBtnSpeaker.getTag().toString()));
+        setMusic(MediaStatus.valueOf(imgBtnMusic.getTag().toString()));
+
         buildTurnEvent(currentTurn);
     }
 
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     public void onClick(View v) {
-        if (v == imgBtnHome) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
-            intent.putExtra("music", imgBtnMusic.getTag().toString());
-
-            startActivity(intent);
-        } else if (v == imgBtnBack) {
-            Intent intent = new Intent(this, TrainingActivity.class);
-            intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
-            intent.putExtra("music", imgBtnMusic.getTag().toString());
-            intent.putExtra("title", tvTrainingTitle.getText().toString());
-            intent.putExtra("trainingId", trainingDetailDTO.getTrainingDTO().getId());
-
-            startActivity(intent);
-        } else if (v == imgBtnSpeaker) {
-            setImgBtnSpeakerService(imgBtnSpeaker.getTag().equals("on") ? "off" : "on");
-        } else if (v == imgBtnMusic) {
-            setImgBtnMusicService(imgBtnMusic.getTag().equals("on") ? "off" : "on");
-        } else if (v == imgBtnSwapBoard) {
-            if (imgBtnSwapBoard.getTag().equals("true")) {
-                imgBtnSwapBoard.setTag("false");
-                mapImageButtonPlayBoard(false);
-            } else {
-                imgBtnSwapBoard.setTag("true");
-                mapImageButtonPlayBoard(true);
-            }
-
-            buildTurnEvent(currentTurn);
+        super.onClick(v);
+        if (v == imgBtnSwapBoard) {
+            setSwapBoardOnClick();
         } else if (v == imgBtnPreviousTurn || v == imgBtnNextTurn) {
-            if (imgBtnSpeaker.getTag().toString().equals("on")) {
-                startService(new Intent(this, SpeakerService.class));
+            if (MediaStatus.ON.equals(imgBtnSpeaker.getTag())) {
+                    startService(new Intent(this, SpeakerService.class));
             }
 
             buildTurnEvent((v == imgBtnPreviousTurn) ? --currentTurn : ++currentTurn);
-        } else {
-            if (v instanceof ImageButton) {
-                String[] index = v.getTag().toString().split("-");
-                int col = Integer.parseInt(index[0]);
-                int row = Integer.parseInt(index[1]);
-                if (imagePlayBoard[col][row].getBackground() != null) {
-                    imagePlayBoard[col][row].setImageDrawable(getDrawable(R.drawable.move));
-                }
-            }
         }
+    }
+
+    private void setSwapBoardOnClick() {
+        if (imgBtnSwapBoard.getTag().equals("true")) {
+            imgBtnSwapBoard.setTag("false");
+            mapImageButtonPlayBoard(false);
+        } else {
+            imgBtnSwapBoard.setTag("true");
+            mapImageButtonPlayBoard(true);
+        }
+
+        buildTurnEvent(currentTurn);
+    }
+
+    @Override
+    protected void setBackOnClick() {
+        Intent intent = new Intent(this, TrainingActivity.class);
+        intent.putExtra("title", tvTrainingTitle.getText());
+        intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
+        intent.putExtra("music", imgBtnMusic.getTag().toString());
+        intent.putExtra("trainingId", trainingDetailDTO.getTrainingDTO().getId());
+        startActivity(intent);
     }
 
     public void mapImageButtonPlayBoard(boolean isSwap) {
@@ -178,28 +159,27 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
                 imagePlayBoard[col][row].setImageDrawable(null);
                 imagePlayBoard[col][row].setBackground(null);
 
-                if (movingPieceDTO != null
-                        && col == movingPieceDTO.getCurrentCol() && row == movingPieceDTO.getCurrentRow()) {
-                    imagePlayBoard[col][row].setImageDrawable(getDrawable(R.drawable.move));
-                }
+                PieceDTO piece = playBoardDTO.getState()[col][row];
 
-                if (playBoardDTO.getState()[col][row] != null) {
-                    if (movingPieceDTO != null && playBoardDTO.getState()[col][row].getId() == movingPieceDTO.getId()) {
-                        imagePlayBoard[col][row].setImageDrawable(getDrawable(R.drawable.move));
+                if (piece != null) {
+                    imagePlayBoard[col][row].setImageDrawable(getDrawable(piece.getImage()));
+
+                    if (movingPieceDTO != null && piece.getId() == movingPieceDTO.getId()) {
+                        imagePlayBoard[col][row].setBackgroundResource(R.drawable.move);
                     }
-                    imagePlayBoard[col][row].setBackground(getDrawable(playBoardDTO.getState()[col][row].getImage()));
+                } else if (movingPieceDTO != null && col == movingPieceDTO.getCurrentCol() && row == movingPieceDTO.getCurrentRow()) {
+                    imagePlayBoard[col][row].setBackgroundResource(R.drawable.move);
                 }
             }
         }
     }
 
+
     public void move(Long turn) {
         MoveHistoryDTO moveHistoryDTO = trainingDetailDTO.getMoveHistoryDTOs().get(turn);
         if (moveHistoryDTO != null) {
             tvMoveDescription.setText(moveHistoryDTO.getDescription());
-            PieceDTO movingPieceDTO = moveHistoryDTO.getMovingPieceDTO();
-            PlayBoardDTO updatedPlayBoardDTO = moveHistoryDTO.getPlayBoardDTO();
-            setImagePlayBoard(movingPieceDTO, updatedPlayBoardDTO);
+            setImagePlayBoard(moveHistoryDTO.getMovingPieceDTO(), moveHistoryDTO.getPlayBoardDTO());
         } else {
             tvMoveDescription.setText(null);
         }
@@ -223,30 +203,6 @@ public class PlayBoardActivity extends AppCompatActivity implements View.OnClick
         if (turn == trainingDetailDTO.getTotalTurn()) {
             imgBtnNextTurn.setEnabled(false);
             imgBtnNextTurn.setBackground(getDrawable(R.drawable.next_turn_disable));
-        }
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void setImgBtnMusicService(String tag) {
-        imgBtnMusic.setTag(tag);
-        if (imgBtnMusic.getTag().toString().equals("on")) {
-            imgBtnMusic.setBackground(getDrawable(R.drawable.music_on));
-            if (MusicService.getInstance() == null) {
-                startService(new Intent(this, MusicService.class));
-            }
-        } else {
-            imgBtnMusic.setBackground(getDrawable(R.drawable.music_off));
-            stopService(new Intent(this, MusicService.class));
-        }
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void setImgBtnSpeakerService(String tag) {
-        imgBtnSpeaker.setTag(tag);
-        if (imgBtnSpeaker.getTag().toString().equals("on")) {
-            imgBtnSpeaker.setBackground(getDrawable(R.drawable.speaker_on));
-        } else {
-            imgBtnSpeaker.setBackground(getDrawable(R.drawable.speaker_off));
         }
     }
 }

@@ -1,20 +1,12 @@
 package com.example.chinesechesstrainning.service.media;
 
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.os.IBinder;
-
 import com.example.chinesechesstrainning.R;
 
-public class MusicService extends MediaService {
-    private static MusicService instance;
+import lombok.Getter;
 
-    public static MusicService getInstance() {
-        return instance;
-    }
+public class MusicService extends MediaService {
+    @Getter
+    private static MusicService instance;
 
     @Override
     public void onCreate() {

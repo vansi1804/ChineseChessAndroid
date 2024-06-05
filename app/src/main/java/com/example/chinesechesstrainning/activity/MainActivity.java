@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.chinesechesstrainning.R;
-import com.example.chinesechesstrainning.activity.header.HeaderActivity;
 import com.example.chinesechesstrainning.enumerable.MediaStatus;
 
 public class MainActivity extends HeaderActivity {
@@ -66,6 +65,7 @@ public class MainActivity extends HeaderActivity {
         Intent intent = new Intent(this, TrainingActivity.class);
         intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
         intent.putExtra("music", imgBtnMusic.getTag().toString());
+        intent.putExtra("title", btnTraining.getText().toString());
         startActivity(intent);
     }
 

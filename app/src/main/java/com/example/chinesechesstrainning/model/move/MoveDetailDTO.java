@@ -1,5 +1,10 @@
 package com.example.chinesechesstrainning.model.move;
 
+import com.example.chinesechesstrainning.model.PieceDTO;
+import com.example.chinesechesstrainning.model.PlayBoardDTO;
+
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,11 +12,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class MoveDetailDTO {
+public class MoveDetailDTO implements Serializable {
 
-    private Integer pieceId;
+    private PieceDTO movingPieceDTO;
 
-    private Integer toCol;
+    private int toCol;
 
-    private Integer toRow;
+    private int toRow;
+
+    private PieceDTO deadPieceDTO;
+
+    private PlayBoardDTO playBoardDTO;
+
+    private PieceDTO checkedGeneralPieceDTO;
+
+    private boolean isCheckmateState;
 }

@@ -23,59 +23,11 @@
                 tools:layout_editor_absoluteX="1dp"
                 tools:layout_editor_absoluteY="1dp">
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:orientation="horizontal"
-                    android:weightSum="7"
-                    tools:ignore="NestedWeights">
-
-                <ImageButton
-                        android:id="@+id/img_btn_home"
-                        style="@style/icon_image_button_style"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/home"
-                        tools:ignore="ContentDescription" />
-
-                <ImageButton
-                        android:id="@+id/img_btn_back"
-                        style="@style/icon_image_button_style"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/back"
-                        tools:ignore="ContentDescription" />
-
-                <TextView
-                        style="@style/icon_image_button_style"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        tools:ignore="ContentDescription" />
-
-                <ImageButton
-                        android:id="@+id/img_btn_speaker"
-                        style="@style/icon_image_button_style"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/speaker_on"
-                        tools:ignore="ContentDescription" />
-
-                <ImageButton
-                        android:id="@+id/img_btn_music"
-                        style="@style/icon_image_button_style"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/music_on"
-                        tools:ignore="ContentDescription" />
-            </LinearLayout>
-
-
+            <include
+                layout="@layout/activity_header"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2" />
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

@@ -38,7 +38,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.PlayBoardActivity"
+            android:name=".activity.TrainingDetailsActivity"
             android:exported="true">
         </activity>
         <activity

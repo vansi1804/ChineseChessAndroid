@@ -13,6 +13,7 @@ public class DataTest {
 
     public static List<PieceDTO> pieceData() {
         List<PieceDTO> pieceDTOS = new ArrayList<>();
+
         pieceDTOS.add(new PieceDTO(1, "Tốt", true, 0, 6, R.drawable.red_soldier));
         pieceDTOS.add(new PieceDTO(2, "Tốt", true, 2, 6, R.drawable.red_soldier));
         pieceDTOS.add(new PieceDTO(3, "Tốt", true, 4, 6, R.drawable.red_soldier));
@@ -46,6 +47,7 @@ public class DataTest {
         pieceDTOS.add(new PieceDTO(30, "Sĩ", false, 3, 0, R.drawable.black_guard));
         pieceDTOS.add(new PieceDTO(31, "Sĩ", false, 5, 0, R.drawable.black_guard));
         pieceDTOS.add(new PieceDTO(32, "Tướng", false, 4, 0, R.drawable.black_general));
+
         return pieceDTOS;
     }
 
@@ -103,37 +105,37 @@ public class DataTest {
         long trainingId1 = 6L;
 
         List<TrainingMoveCreationDTO> trainingMoveCreationDTOs1 = new ArrayList<>();
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(7, 4, 7, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(23, 4, 2, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(11, 6, 7, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(27, 6, 2, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(9, 8, 8, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(25, 7, 0, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(9, 3, 8, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(25, 7, 6, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(9, 3, 1, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(26, 0, 2, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(8, 0, 8, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(22, 1, 9, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(6, 1, 2, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(25, 7, 2, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(9, 6, 1, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(24, 1, 0, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(6, 6, 2, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(29, 8, 2, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(7, 4, 3, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(31, 4, 1, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(6, 8, 2, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(25, 7, 0, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(8, 7, 8, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(25, 5, 0, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(9, 7, 1, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(24, 1, 4, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(6, 8, 0, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(25, 8, 0, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(9, 7, 0, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(25, 7, 0, trainingId1));
-        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(8, 7, 0, trainingId1));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 7, 4, 7));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 23, 4, 2));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 11, 6, 7));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 27, 6, 2));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 9, 8, 8));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 25, 7, 0));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 9, 3, 8));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 25, 7, 6));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 9, 3, 1));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 26, 0, 2));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 8, 0, 8));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 22, 1, 9));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 6, 1, 2));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 25, 7, 2));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 9, 6, 1));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 24, 1, 0));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 6, 6, 2));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 29, 8, 2));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 7, 4, 3));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 31, 4, 1));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 6, 8, 2));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 25, 7, 0));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 8, 7, 8));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 25, 5, 0));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 9, 7, 1));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 24, 1, 4));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 6, 8, 0));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 25, 8, 0));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 9, 7, 0));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 25, 7, 0));
+        trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 8, 7, 0));
 
         trainingDetailDTOS.add(Support.buildTrainingDetails(trainingMoveCreationDTOs1));
         /**//**////////////////////////////////////////////////
