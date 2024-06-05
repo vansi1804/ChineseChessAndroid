@@ -1,5 +1,6 @@
 package com.example.chinesechesstrainning.support;
 
+import com.example.chinesechesstrainning.enumerable.PlayBoardSize;
 import com.example.chinesechesstrainning.model.PieceDTO;
 import com.example.chinesechesstrainning.model.PlayBoardDTO;
 import com.example.chinesechesstrainning.model.move.MoveHistoryDTO;
@@ -17,8 +18,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public class Support {
-    private static final int COL = 9;
-    private static final int ROW = 10;
+    private static final int COL = PlayBoardSize.COL.getSize();
+    private static final int ROW = PlayBoardSize.ROW.getSize();
 
     public static PieceDTO findPieceInBoard(int pieceId, PlayBoardDTO playBoardDTO) {
         for (int col = 0; col <= COL - 1; col++) {
@@ -134,7 +135,7 @@ public class Support {
     }
 
     public static PlayBoardDTO generatePlayBoard() {
-        PlayBoardDTO playBoardDTO = new PlayBoardDTO(new PieceDTO[9][10]);
+        PlayBoardDTO playBoardDTO = new PlayBoardDTO(new PieceDTO[COL][ROW]);
 
         DataTest.pieceData().forEach(
                 piece -> playBoardDTO.getState()[piece.getCurrentCol()][piece.getCurrentRow()] = piece.toBuilder().build());

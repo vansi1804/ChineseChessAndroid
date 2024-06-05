@@ -6,11 +6,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background"
+        android:layout_height="0dp"
+        android:layout_weight="20"
         android:orientation="vertical"
-        android:weightSum="20"
-        tools:ignore="UselessParent">
+        android:background="@drawable/background"
+        tools:ignore="MissingConstraints,UselessParent">
 
         <include
             layout="@layout/activity_header"
@@ -41,81 +41,10 @@
         </LinearLayout>
 
         <include
-            layout="@layout/activity_play_board"
+            layout="@layout/activity_history"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="11" />
+            android:layout_weight="15.5" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0sp"
-            android:layout_weight="4.5"
-            android:orientation="vertical"
-            android:weightSum="2">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0sp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:weightSum="5"
-                tools:ignore="NestedWeights,UselessLeaf">
-
-                <ImageButton
-                    android:id="@+id/btn_swap_board"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/swap_board"
-                    tools:ignore="ContentDescription,NestedWeights" />
-
-                <TextView
-                    android:id="@+id/tv_move_description"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="30sp"
-                    android:textStyle="bold|italic"
-                    tools:ignore="ContentDescription" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0sp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <ImageButton
-                    android:id="@+id/btn_previous_turn"
-                    style="@style/icon_image_button_training_detail_control_style"
-                    android:background="@drawable/previous_turn"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/tv_turn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="0/turns"
-                    android:textColor="@color/white"
-                    android:textSize="40sp"
-                    android:textStyle="italic"
-                    tools:ignore="HardcodedText,NestedWeights" />
-
-                <ImageButton
-                    android:id="@+id/btn_next_turn"
-                    style="@style/icon_image_button_training_detail_control_style"
-                    android:background="@drawable/next_turn"
-                    tools:ignore="ContentDescription" />
-
-            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
