@@ -2,45 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="20"
         tools:ignore="UselessParent">
 
-        <LinearLayout
+        <include
+            android:id="@+id/play_board"
+            layout="@layout/activity_play_board"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="15.5"
-            android:background="@drawable/board"
-            android:orientation="vertical"
-            android:weightSum="2">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="23dp"
-                android:layout_marginBottom="26dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp">
-
-                <include
-                    layout="@layout/activity_play_board"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_weight="11.2"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4.5"
+            android:layout_weight="4.4"
             android:orientation="vertical"
-            android:weightSum="2">
+            android:padding="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,7 +30,7 @@
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:weightSum="5"
-                tools:ignore="NestedWeights,UselessLeaf">
+                tools:ignore="NestedWeights">
 
                 <TextView
                     android:id="@+id/tv_move_description"
@@ -58,8 +40,7 @@
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="30sp"
-                    android:textStyle="bold|italic"
-                    tools:ignore="ContentDescription" />
+                    android:textStyle="bold|italic" />
 
                 <ImageButton
                     android:id="@+id/btn_swap_board"
@@ -69,7 +50,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/swap_board"
-                    tools:ignore="ContentDescription,NestedWeights" />
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
 
@@ -78,7 +59,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="3"
+                android:paddingTop="8dp">
 
                 <ImageButton
                     android:id="@+id/btn_previous_turn"
@@ -98,8 +80,7 @@
                     android:text="0/turns"
                     android:textColor="@color/white"
                     android:textSize="40sp"
-                    android:textStyle="italic"
-                    tools:ignore="HardcodedText,NestedWeights" />
+                    android:textStyle="italic" />
 
                 <ImageButton
                     android:id="@+id/btn_next_turn"
@@ -112,5 +93,6 @@
 
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>

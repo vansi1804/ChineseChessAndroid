@@ -23,14 +23,41 @@
             android:layout_height="0dp"
             android:layout_weight="16"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="16dp">
 
             <Button
                 android:id="@+id/btn_training"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="50dp"
-                android:text="Cạm bẫy khai cuộc" />
+                android:textSize="20sp"
+                android:text="Cạm bẫy khai cuộc"
+                android:layout_marginBottom="15dp"
+                android:textColor="@android:color/white"
+                android:elevation="4dp"
+                android:padding="15dp" />
+
+            <Button
+                android:id="@+id/btn_play_with_2_player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Chơi 2 người"
+                android:layout_marginBottom="15dp"
+                android:textColor="@android:color/white"
+                android:elevation="4dp"
+                android:padding="15dp" />
+
+            <Button
+                android:id="@+id/btn_play_with_computer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Chơi với máy"
+                android:layout_marginBottom="15dp"
+                android:textColor="@android:color/white"
+                android:elevation="4dp"
+                android:padding="15dp" />
         </LinearLayout>
 
     </LinearLayout>
