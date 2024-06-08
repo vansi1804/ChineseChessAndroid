@@ -120,10 +120,10 @@ public class TrainingDetailsActivity extends HeaderActivity {
     @Override
     protected void setBackOnClick() {
         Intent intent = new Intent(this, TrainingActivity.class);
+        intent.putExtra("source", "TrainingDetailsActivity");
         intent.putExtra("title", tvTrainingTitle.getText());
         intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
         intent.putExtra("music", imgBtnMusic.getTag().toString());
-        intent.putExtra("trainingId", trainingDetailDTO.getTrainingDTO().getId());
         startActivity(intent);
     }
 

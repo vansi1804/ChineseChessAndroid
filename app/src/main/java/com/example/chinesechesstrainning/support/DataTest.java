@@ -55,46 +55,76 @@ public class DataTest {
         List<TrainingDTO> trainingDTOS = new ArrayList<>();
         trainingDTOS.add(new TrainingDTO(
                 1L,
-                "Tuyển tập pháo đầu",
+                "Cạm bẫy khai cuộc",
                 null,
                 new ArrayList<>()
         ));
+
         trainingDTOS.add(new TrainingDTO(
                 2L,
-                "Tuyển tập bình phong mã",
-                null,
-                new ArrayList<TrainingDTO>()
+                "Tuyển tập pháo đầu",
+                1L,
+                new ArrayList<>()
         ));
         trainingDTOS.add(new TrainingDTO(
                 3L,
-                "Tuyển tập phi tượng cục",
-                null,
+                "Tuyển tập bình phong mã",
+                1L,
                 new ArrayList<TrainingDTO>()
         ));
         trainingDTOS.add(new TrainingDTO(
                 4L,
-                "Thuận pháo",
+                "Tuyển tập phi tượng cục",
                 1L,
                 new ArrayList<TrainingDTO>()
         ));
         trainingDTOS.add(new TrainingDTO(
                 5L,
-                "Nghịch pháo",
-                1L,
+                "Thuận pháo",
+                2L,
                 new ArrayList<TrainingDTO>()
         ));
         trainingDTOS.add(new TrainingDTO(
                 6L,
-                "Bài 1",
-                4L,
+                "Nghịch pháo",
+                2L,
                 new ArrayList<TrainingDTO>()
         ));
         trainingDTOS.add(new TrainingDTO(
                 7L,
-                "Bài 2",
-                4L,
+                "Bài 1",
+                5L,
                 new ArrayList<TrainingDTO>()
         ));
+        trainingDTOS.add(new TrainingDTO(
+                8L,
+                "Bài 2",
+                5L,
+                new ArrayList<TrainingDTO>()
+        ));
+
+        trainingDTOS.add(new TrainingDTO(
+                9L,
+                "Cạm bẫy trung cuộc",
+                null,
+                new ArrayList<>()
+        ));
+
+        trainingDTOS.add(new TrainingDTO(
+                10L,
+                "Cạm bẫy tàn cuộc",
+                null,
+                new ArrayList<>()
+        ));
+
+        for (TrainingDTO childTrainingDTO : trainingDTOS) {
+            for (TrainingDTO parentTraining : trainingDTOS) {
+                if (parentTraining.getId().equals(childTrainingDTO.getParentTrainingId())) {
+                    parentTraining.getChildTrainingDTOs().add(childTrainingDTO);
+                }
+            }
+        }
+
         return trainingDTOS;
     }
 
@@ -102,7 +132,7 @@ public class DataTest {
         List<TrainingDetailDTO> trainingDetailDTOS = new ArrayList<>();
 
         /**//**////////////////////////////////////////////////
-        long trainingId1 = 6L;
+        long trainingId1 = 7L;
 
         List<TrainingMoveCreationDTO> trainingMoveCreationDTOs1 = new ArrayList<>();
         trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 7, 4, 7));

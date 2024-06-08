@@ -63,6 +63,7 @@ public class MainActivity extends HeaderActivity {
 
     public void trainingOnClick(){
         Intent intent = new Intent(this, TrainingActivity.class);
+        intent.putExtra("source", "MainActivity");
         intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
         intent.putExtra("music", imgBtnMusic.getTag().toString());
         intent.putExtra("title", btnTraining.getText().toString());

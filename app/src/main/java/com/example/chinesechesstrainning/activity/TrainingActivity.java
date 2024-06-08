@@ -21,6 +21,7 @@ import com.example.chinesechesstrainning.support.Support;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Stack;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +33,8 @@ public class TrainingActivity extends HeaderActivity {
     private TextView tvTrainingTitle;
     private RecyclerView recyclerView;
     private List<TrainingDTO> trainingDTOs;
+
+    private static final Stack<List<TrainingDTO>> trainingDTOStack = new Stack<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -60,20 +63,18 @@ public class TrainingActivity extends HeaderActivity {
         if (getIntent().getExtras() != null) {
             imgBtnSpeaker.setTag(getIntent().getExtras().getString("speaker"));
             imgBtnMusic.setTag(getIntent().getExtras().getString("music"));
-
-            TrainingDTO trainingDTO = Support.findTrainingById(getIntent().getExtras().getLong("trainingId"));
-            if (trainingDTO == null || trainingDTO.getParentTrainingId() == null) {
-                trainingDTOs = Support.findAllByParentTrainingId(null);
-            } else {
-                trainingDTOs = Support.findAllByParentTrainingId(trainingDTO.getParentTrainingId());
-            }
             tvTrainingTitle.setText(getIntent().getExtras().getString("title"));
 
+            if (Objects.equals(getIntent().getExtras().getString("source"), "MainActivity")) {
+                trainingDTOs = Support.findAllByParentTrainingId(null);
+                trainingDTOStack.push(trainingDTOs);
+            } else {
+                trainingDTOs = trainingDTOStack.pop();
+            }
             getIntent().getExtras().clear();
         } else {
             imgBtnMusic.setTag(MediaStatus.OFF.name());
             imgBtnSpeaker.setTag(MediaStatus.OFF.name());
-            trainingDTOs = Support.findAllByParentTrainingId(null);
         }
 
         setSpeaker(MediaStatus.valueOf(imgBtnSpeaker.getTag().toString()));
@@ -89,14 +90,14 @@ public class TrainingActivity extends HeaderActivity {
 
     @Override
     protected void setBackOnClick() {
-        TrainingDTO parentTrainingDTO = Support.findTrainingById(trainingDTOs.get(0).getParentTrainingId());
-        if (parentTrainingDTO == null) {
+        trainingDTOs = trainingDTOStack.pop();
+
+        if (trainingDTOs.isEmpty()) {
             setHomeOnClick();
         } else {
-            trainingDTOs = Support.findAllByParentTrainingId(parentTrainingDTO.getParentTrainingId());
-            int lastedEnterChar = tvTrainingTitle.getText().toString().lastIndexOf('-');
-            if (lastedEnterChar > 0) {
-                tvTrainingTitle.setText(tvTrainingTitle.getText().toString().substring(0, lastedEnterChar));
+            int lastConnectCharacter = tvTrainingTitle.getText().toString().lastIndexOf('-');
+            if (lastConnectCharacter > 0) {
+                tvTrainingTitle.setText(tvTrainingTitle.getText().toString().substring(0, lastConnectCharacter));
             } else {
                 tvTrainingTitle.setText("");
             }
@@ -107,21 +108,21 @@ public class TrainingActivity extends HeaderActivity {
     @SuppressLint("SetTextI18n")
     private void setMatchesIntoRecyclerView(List<TrainingDTO> trainingDTOS) {
         recyclerView.setAdapter(new TrainingItemAdapter((ArrayList<TrainingDTO>) trainingDTOS, this, trainingClicked -> {
-            TrainingDTO trainingDTO = Support.findTrainingById(trainingClicked.getId());
-
             String title = tvTrainingTitle.getText().length() == 0
-                    ? trainingDTO.getTitle() : tvTrainingTitle.getText() + "-" + trainingDTO.getTitle();
+                    ? trainingClicked.getTitle() : tvTrainingTitle.getText() + "-" + trainingClicked.getTitle();
 
-            if (!trainingDTO.getChildTrainingDTOs().isEmpty()) {
+            if (!trainingClicked.getChildTrainingDTOs().isEmpty()) {
                 tvTrainingTitle.setText(title);
-                setMatchesIntoRecyclerView(trainingDTO.getChildTrainingDTOs());
-                trainingDTOs = trainingDTO.getChildTrainingDTOs();
+                trainingDTOs = trainingClicked.getChildTrainingDTOs();
+                setMatchesIntoRecyclerView(trainingDTOs);
+                trainingDTOStack.push(trainingDTOs);
+
             } else {
                 Intent intent = new Intent(this, TrainingDetailsActivity.class);
                 intent.putExtra("title", title);
                 intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
                 intent.putExtra("music", imgBtnMusic.getTag().toString());
-                intent.putExtra("trainingId", trainingDTO.getId());
+                intent.putExtra("trainingId", trainingClicked.getId());
                 startActivity(intent);
             }
         }));

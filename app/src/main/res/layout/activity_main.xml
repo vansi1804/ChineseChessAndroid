@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="Cạm bẫy khai cuộc"
+                android:text="Thư viện tượng kỳ"
                 android:layout_marginBottom="15dp"
                 android:textColor="@android:color/white"
                 android:elevation="4dp"

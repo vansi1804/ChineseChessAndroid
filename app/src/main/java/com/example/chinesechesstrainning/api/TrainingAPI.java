@@ -14,13 +14,13 @@ public interface TrainingAPI {
     @GET("/trainings")
     Call<List<TrainingDTO>> findAll();
 
-    @GET("/trainings/id={id}/children")
+    @GET("/trainings/{id}/children")
     Call<List<TrainingDTO>> findAllChildrenById(@Path("id") long id);
 
-    @GET("/trainings/id={id}")
+    @GET("/trainings/{id}")
     TrainingDTO findById(@Path("id") long id);
 
-    @GET("/trainings/id={id}/details")
+    @GET("/trainings/{id}/details")
     TrainingDetailDTO findDetailsById(@Path("id") long id);
 
 }
