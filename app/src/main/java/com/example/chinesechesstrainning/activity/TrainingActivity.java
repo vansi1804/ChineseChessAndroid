@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chinesechesstrainning.R;
 import com.example.chinesechesstrainning.adapter.TrainingItemAdapter;
+import com.example.chinesechesstrainning.api.RetrofitClient;
 import com.example.chinesechesstrainning.api.TrainingAPI;
 import com.example.chinesechesstrainning.enumerable.MediaStatus;
 import com.example.chinesechesstrainning.model.training.TrainingDTO;
-import com.example.chinesechesstrainning.support.Support;
+
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,13 @@ public class TrainingActivity extends HeaderActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
 
+        try {
+            trainingAPI = RetrofitClient.getRetrofitInstance().create(TrainingAPI.class);
+            Log.d("Retrofit", "Retrofit instance created successfully");
+        } catch (Exception e) {
+            Log.e("Retrofit", "Error creating Retrofit instance", e);
+        }
+
         imgBtnHome = findViewById(R.id.img_btn_home);
         imgBtnHome.setOnClickListener(this);
 
@@ -66,15 +75,12 @@ public class TrainingActivity extends HeaderActivity {
             tvTrainingTitle.setText(getIntent().getExtras().getString("title"));
 
             if (Objects.equals(getIntent().getExtras().getString("source"), "MainActivity")) {
-                trainingDTOs = Support.findAllByParentTrainingId(null);
-                trainingDTOStack.push(trainingDTOs);
+                trainingDTOs = new ArrayList<>();
+                callFindAllTrainingsAPI();
             } else {
                 trainingDTOs = trainingDTOStack.pop();
             }
             getIntent().getExtras().clear();
-        } else {
-            imgBtnMusic.setTag(MediaStatus.OFF.name());
-            imgBtnSpeaker.setTag(MediaStatus.OFF.name());
         }
 
         setSpeaker(MediaStatus.valueOf(imgBtnSpeaker.getTag().toString()));
@@ -90,9 +96,7 @@ public class TrainingActivity extends HeaderActivity {
 
     @Override
     protected void setBackOnClick() {
-        trainingDTOs = trainingDTOStack.pop();
-
-        if (trainingDTOs.isEmpty()) {
+        if (trainingDTOStack.isEmpty()) {
             setHomeOnClick();
         } else {
             int lastConnectCharacter = tvTrainingTitle.getText().toString().lastIndexOf('-');
@@ -101,6 +105,8 @@ public class TrainingActivity extends HeaderActivity {
             } else {
                 tvTrainingTitle.setText("");
             }
+
+            trainingDTOs = trainingDTOStack.pop();
             setMatchesIntoRecyclerView(trainingDTOs);
         }
     }
@@ -108,15 +114,16 @@ public class TrainingActivity extends HeaderActivity {
     @SuppressLint("SetTextI18n")
     private void setMatchesIntoRecyclerView(List<TrainingDTO> trainingDTOS) {
         recyclerView.setAdapter(new TrainingItemAdapter((ArrayList<TrainingDTO>) trainingDTOS, this, trainingClicked -> {
+            Log.d("TAG", "trainingId: " + trainingClicked.toString());
+
             String title = tvTrainingTitle.getText().length() == 0
                     ? trainingClicked.getTitle() : tvTrainingTitle.getText() + "-" + trainingClicked.getTitle();
 
-            if (!trainingClicked.getChildTrainingDTOs().isEmpty()) {
+            if (!CollectionUtils.isEmpty(trainingClicked.getChildTrainingDTOs())) {
                 tvTrainingTitle.setText(title);
+                trainingDTOStack.push(trainingDTOs);
                 trainingDTOs = trainingClicked.getChildTrainingDTOs();
                 setMatchesIntoRecyclerView(trainingDTOs);
-                trainingDTOStack.push(trainingDTOs);
-
             } else {
                 Intent intent = new Intent(this, TrainingDetailsActivity.class);
                 intent.putExtra("title", title);
@@ -134,13 +141,18 @@ public class TrainingActivity extends HeaderActivity {
         call.enqueue(new Callback<List<TrainingDTO>>() {
             @Override
             public void onResponse(@NonNull Call<List<TrainingDTO>> call, @NonNull Response<List<TrainingDTO>> response) {
-                Log.d("Training-findAll", response.code() + "");
-                trainingDTOs = response.body();
+                Log.d("Training-findAll", "Response code: " + response.code());
+                if (response.isSuccessful()) {
+                    trainingDTOs = response.body();
+                    setMatchesIntoRecyclerView(trainingDTOs);
+                } else {
+                    Log.e("Training-findAll", "Response not successful");
+                }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<TrainingDTO>> call, @NonNull Throwable throwable) {
-                Log.d("Training-findAll", Objects.requireNonNull(throwable.getMessage()));
+                Log.e("Training-findAll", "API call failed", throwable);
                 call.cancel();
             }
         });

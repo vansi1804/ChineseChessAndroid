@@ -1,12 +1,18 @@
 package com.example.chinesechesstrainning.support;
 
+import android.util.Log;
+
 import com.example.chinesechesstrainning.R;
 import com.example.chinesechesstrainning.model.PieceDTO;
 import com.example.chinesechesstrainning.model.move.TrainingMoveCreationDTO;
 import com.example.chinesechesstrainning.model.training.TrainingDTO;
 import com.example.chinesechesstrainning.model.training.TrainingDetailDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class DataTest {
@@ -52,87 +58,201 @@ public class DataTest {
     }
 
     public static List<TrainingDTO> trainingData() {
-        List<TrainingDTO> trainingDTOS = new ArrayList<>();
-        trainingDTOS.add(new TrainingDTO(
-                1L,
-                "Cạm bẫy khai cuộc",
-                null,
-                new ArrayList<>()
-        ));
+        String TAG = "Find all training";
+        List<TrainingDTO> trainingDTOs = trainingDataTest();
+        Log.d(TAG, "training1: " + trainingDTOs.toString());
+        Log.d(TAG, "training2: " + trainingJsonDataTest().toString());
+        return trainingDTOs;
+    }
 
-        trainingDTOS.add(new TrainingDTO(
-                2L,
-                "Tuyển tập pháo đầu",
-                1L,
-                new ArrayList<>()
-        ));
-        trainingDTOS.add(new TrainingDTO(
-                3L,
-                "Tuyển tập bình phong mã",
-                1L,
-                new ArrayList<TrainingDTO>()
-        ));
-        trainingDTOS.add(new TrainingDTO(
-                4L,
-                "Tuyển tập phi tượng cục",
-                1L,
-                new ArrayList<TrainingDTO>()
-        ));
-        trainingDTOS.add(new TrainingDTO(
-                5L,
-                "Thuận pháo",
-                2L,
-                new ArrayList<TrainingDTO>()
-        ));
-        trainingDTOS.add(new TrainingDTO(
-                6L,
-                "Nghịch pháo",
-                2L,
-                new ArrayList<TrainingDTO>()
-        ));
-        trainingDTOS.add(new TrainingDTO(
-                7L,
-                "Bài 1",
-                5L,
-                new ArrayList<TrainingDTO>()
-        ));
-        trainingDTOS.add(new TrainingDTO(
-                8L,
-                "Bài 2",
-                5L,
-                new ArrayList<TrainingDTO>()
-        ));
+    public static List<TrainingDTO> trainingJsonDataTest() {
+        String jsonData = "[\n" +
+                "    {\n" +
+                "        \"createdDate\": \"10-06-2024 07:36:53\",\n" +
+                "        \"createdByUserId\": 1,\n" +
+                "        \"lastModifiedDate\": \"10-06-2024 07:36:53\",\n" +
+                "        \"lastModifiedByUserId\": 1,\n" +
+                "        \"id\": 1,\n" +
+                "        \"title\": \"Cạm bẫy khai cuộc\",\n" +
+                "        \"parentTrainingId\": null,\n" +
+                "        \"childTrainingDTOs\": [\n" +
+                "            {\n" +
+                "                \"createdDate\": \"10-06-2024 07:43:57\",\n" +
+                "                \"createdByUserId\": 1,\n" +
+                "                \"lastModifiedDate\": \"10-06-2024 07:43:57\",\n" +
+                "                \"lastModifiedByUserId\": 1,\n" +
+                "                \"id\": 4,\n" +
+                "                \"title\": \"Tuyển tập pháo đầu\",\n" +
+                "                \"parentTrainingId\": 1,\n" +
+                "                \"childTrainingDTOs\": [\n" +
+                "                    {\n" +
+                "                        \"createdDate\": \"10-06-2024 07:44:58\",\n" +
+                "                        \"createdByUserId\": 1,\n" +
+                "                        \"lastModifiedDate\": \"10-06-2024 07:44:58\",\n" +
+                "                        \"lastModifiedByUserId\": 1,\n" +
+                "                        \"id\": 7,\n" +
+                "                        \"title\": \"Thuận pháo\",\n" +
+                "                        \"parentTrainingId\": 4,\n" +
+                "                        \"childTrainingDTOs\": [\n" +
+                "                            {\n" +
+                "                                \"createdDate\": \"10-06-2024 07:45:54\",\n" +
+                "                                \"createdByUserId\": 1,\n" +
+                "                                \"lastModifiedDate\": \"10-06-2024 07:45:54\",\n" +
+                "                                \"lastModifiedByUserId\": 1,\n" +
+                "                                \"id\": 11,\n" +
+                "                                \"title\": \"Bài 1\",\n" +
+                "                                \"parentTrainingId\": 7,\n" +
+                "                                \"childTrainingDTOs\": []\n" +
+                "                            },\n" +
+                "                            {\n" +
+                "                                \"createdDate\": \"10-06-2024 07:45:57\",\n" +
+                "                                \"createdByUserId\": 1,\n" +
+                "                                \"lastModifiedDate\": \"10-06-2024 07:45:57\",\n" +
+                "                                \"lastModifiedByUserId\": 1,\n" +
+                "                                \"id\": 12,\n" +
+                "                                \"title\": \"Bài 2\",\n" +
+                "                                \"parentTrainingId\": 7,\n" +
+                "                                \"childTrainingDTOs\": []\n" +
+                "                            },\n" +
+                "                            {\n" +
+                "                                \"createdDate\": \"10-06-2024 07:46:00\",\n" +
+                "                                \"createdByUserId\": 1,\n" +
+                "                                \"lastModifiedDate\": \"10-06-2024 07:46:00\",\n" +
+                "                                \"lastModifiedByUserId\": 1,\n" +
+                "                                \"id\": 13,\n" +
+                "                                \"title\": \"Bài 3\",\n" +
+                "                                \"parentTrainingId\": 7,\n" +
+                "                                \"childTrainingDTOs\": []\n" +
+                "                            }\n" +
+                "                        ]\n" +
+                "                    },\n" +
+                "                    {\n" +
+                "                        \"createdDate\": \"10-06-2024 07:45:02\",\n" +
+                "                        \"createdByUserId\": 1,\n" +
+                "                        \"lastModifiedDate\": \"10-06-2024 07:45:02\",\n" +
+                "                        \"lastModifiedByUserId\": 1,\n" +
+                "                        \"id\": 8,\n" +
+                "                        \"title\": \"Nghịch pháo\",\n" +
+                "                        \"parentTrainingId\": 4,\n" +
+                "                        \"childTrainingDTOs\": []\n" +
+                "                    },\n" +
+                "                    {\n" +
+                "                        \"createdDate\": \"10-06-2024 07:45:10\",\n" +
+                "                        \"createdByUserId\": 1,\n" +
+                "                        \"lastModifiedDate\": \"10-06-2024 07:45:10\",\n" +
+                "                        \"lastModifiedByUserId\": 1,\n" +
+                "                        \"id\": 9,\n" +
+                "                        \"title\": \"Uyên ương pháo\",\n" +
+                "                        \"parentTrainingId\": 4,\n" +
+                "                        \"childTrainingDTOs\": []\n" +
+                "                    },\n" +
+                "                    {\n" +
+                "                        \"createdDate\": \"10-06-2024 07:45:19\",\n" +
+                "                        \"createdByUserId\": 1,\n" +
+                "                        \"lastModifiedDate\": \"10-06-2024 07:45:19\",\n" +
+                "                        \"lastModifiedByUserId\": 1,\n" +
+                "                        \"id\": 10,\n" +
+                "                        \"title\": \"Tuần hà pháo\",\n" +
+                "                        \"parentTrainingId\": 4,\n" +
+                "                        \"childTrainingDTOs\": []\n" +
+                "                    }\n" +
+                "                ]\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"createdDate\": \"10-06-2024 07:44:07\",\n" +
+                "                \"createdByUserId\": 1,\n" +
+                "                \"lastModifiedDate\": \"10-06-2024 07:44:07\",\n" +
+                "                \"lastModifiedByUserId\": 1,\n" +
+                "                \"id\": 5,\n" +
+                "                \"title\": \"Tuyển tập bình phong mã\",\n" +
+                "                \"parentTrainingId\": 1,\n" +
+                "                \"childTrainingDTOs\": []\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"createdDate\": \"10-06-2024 07:44:25\",\n" +
+                "                \"createdByUserId\": 1,\n" +
+                "                \"lastModifiedDate\": \"10-06-2024 07:44:25\",\n" +
+                "                \"lastModifiedByUserId\": 1,\n" +
+                "                \"id\": 6,\n" +
+                "                \"title\": \"Tuyển tập bình phi tượng cục\",\n" +
+                "                \"parentTrainingId\": 1,\n" +
+                "                \"childTrainingDTOs\": []\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"createdDate\": \"10-06-2024 07:43:18\",\n" +
+                "        \"createdByUserId\": 1,\n" +
+                "        \"lastModifiedDate\": \"10-06-2024 07:43:18\",\n" +
+                "        \"lastModifiedByUserId\": 1,\n" +
+                "        \"id\": 2,\n" +
+                "        \"title\": \"Cạm bẫy trung cuộc\",\n" +
+                "        \"parentTrainingId\": null,\n" +
+                "        \"childTrainingDTOs\": []\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"createdDate\": \"10-06-2024 07:43:22\",\n" +
+                "        \"createdByUserId\": 1,\n" +
+                "        \"lastModifiedDate\": \"10-06-2024 07:43:22\",\n" +
+                "        \"lastModifiedByUserId\": 1,\n" +
+                "        \"id\": 3,\n" +
+                "        \"title\": \"Cạm bẫy tàn cuộc\",\n" +
+                "        \"parentTrainingId\": null,\n" +
+                "        \"childTrainingDTOs\": []\n" +
+                "    }\n" +
+                "]";
 
-        trainingDTOS.add(new TrainingDTO(
-                9L,
-                "Cạm bẫy trung cuộc",
-                null,
-                new ArrayList<>()
-        ));
-
-        trainingDTOS.add(new TrainingDTO(
-                10L,
-                "Cạm bẫy tàn cuộc",
-                null,
-                new ArrayList<>()
-        ));
-
-        for (TrainingDTO childTrainingDTO : trainingDTOS) {
-            for (TrainingDTO parentTraining : trainingDTOS) {
-                if (parentTraining.getId().equals(childTrainingDTO.getParentTrainingId())) {
-                    parentTraining.getChildTrainingDTOs().add(childTrainingDTO);
-                }
-            }
+        try {
+            return new ObjectMapper().readValue(jsonData, new TypeReference<List<TrainingDTO>>() {
+            });
+        } catch (Exception ex) {
+            return new ArrayList<>();
         }
+    }
 
-        return trainingDTOS;
+    public static List<TrainingDTO> trainingDataTest() {
+        List<TrainingDTO> trainingDTOs = new ArrayList<>(Arrays.asList(
+                new TrainingDTO(
+                        1L,
+                        "Cạm bẫy khai cuộc",
+                        null,
+                        new ArrayList<>(Arrays.asList(
+                                new TrainingDTO(
+                                        4L,
+                                        "Tuyển tập pháo đầu",
+                                        1L,
+                                        new ArrayList<>(Arrays.asList(
+                                                new TrainingDTO(
+                                                        7L,
+                                                        "Thuận pháo",
+                                                        4L,
+                                                        new ArrayList<>(Arrays.asList(
+                                                                new TrainingDTO(11L, "Bài 1", 7L, new ArrayList<>()),
+                                                                new TrainingDTO(12L, "Bài 2", 7L, new ArrayList<>()),
+                                                                new TrainingDTO(13L, "Bài 3", 7L, new ArrayList<>())
+                                                        ))
+                                                ),
+                                                new TrainingDTO(8L, "Nghịch pháo", 4L, new ArrayList<>()),
+                                                new TrainingDTO(9L, "Uyên ương pháo", 4L, new ArrayList<>()),
+                                                new TrainingDTO(10L, "Tuần hà pháo", 4L, new ArrayList<>())
+                                        ))
+                                ),
+                                new TrainingDTO(5L, "Tuyển tập bình phong mã", 1L, new ArrayList<>()),
+                                new TrainingDTO(6L, "Tuyển tập bình phi tượng cục", 1L, new ArrayList<>())
+                        ))
+                ),
+                new TrainingDTO(2L, "Cạm bẫy trung cuộc", null, new ArrayList<>()),
+                new TrainingDTO(3L, "Cạm bẫy tàn cuộc", null, new ArrayList<>())
+        ));
+
+        return trainingDTOs;
     }
 
     public static List<TrainingDetailDTO> trainingDetailData() {
         List<TrainingDetailDTO> trainingDetailDTOS = new ArrayList<>();
 
         /**//**////////////////////////////////////////////////
-        long trainingId1 = 7L;
+        long trainingId1 = 11L;
 
         List<TrainingMoveCreationDTO> trainingMoveCreationDTOs1 = new ArrayList<>();
         trainingMoveCreationDTOs1.add(new TrainingMoveCreationDTO(trainingId1, 7, 4, 7));

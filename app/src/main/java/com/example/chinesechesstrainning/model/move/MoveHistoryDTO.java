@@ -1,6 +1,7 @@
 package com.example.chinesechesstrainning.model.move;
 
 import com.example.chinesechesstrainning.model.PieceDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MoveHistoryDTO extends MoveDetailDTO {
 
     private long turn;
