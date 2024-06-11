@@ -14,12 +14,6 @@ public interface TrainingAPI {
     @GET("trainings")
     Call<List<TrainingDTO>> findAll();
 
-    @GET("trainings/{id}/children")
-    Call<List<TrainingDTO>> findAllChildrenById(@Path("id") long id);
-
-    @GET("trainings/{id}")
-    Call<TrainingDTO> findById(@Path("id") long id);
-
     @GET("trainings/{id}/details")
     Call<TrainingDetailDTO> findDetailsById(@Path("id") long id);
 

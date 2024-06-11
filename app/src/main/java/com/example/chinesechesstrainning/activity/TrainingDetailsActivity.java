@@ -14,6 +14,7 @@ import com.example.chinesechesstrainning.R;
 import com.example.chinesechesstrainning.api.RetrofitClient;
 import com.example.chinesechesstrainning.api.TrainingAPI;
 import com.example.chinesechesstrainning.enumerable.MediaStatus;
+import com.example.chinesechesstrainning.enumerable.PlayBoardSize;
 import com.example.chinesechesstrainning.model.PieceDTO;
 import com.example.chinesechesstrainning.model.PlayBoardDTO;
 import com.example.chinesechesstrainning.model.move.MoveHistoryDTO;
@@ -28,7 +29,7 @@ import retrofit2.Response;
 public class TrainingDetailsActivity extends HeaderActivity {
     private TrainingAPI trainingAPI;
     private TextView tvTrainingTitle;
-    private ImageButton[][] imagePlayBoards;
+    private static ImageButton[][] imagePlayBoards;
     private ImageButton imgBtnSwapBoard;
     private Long currentTurn = 0L;
     private TextView tvTurn;
@@ -36,7 +37,6 @@ public class TrainingDetailsActivity extends HeaderActivity {
     private ImageButton imgBtnPreviousTurn;
     private ImageButton imgBtnNextTurn;
     private TrainingDetailDTO trainingDetailDTO;
-    private final ImageButton[][] startPlayBoards = PlayBoardSupport.getStartPlayBoard(this);
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -61,7 +61,8 @@ public class TrainingDetailsActivity extends HeaderActivity {
         tvTrainingTitle = findViewById(R.id.tv_training_title);
         tvTrainingTitle.setSelected(true);
 
-        imagePlayBoards = mapImageButtonPlayBoard(false);
+        imagePlayBoards = new ImageButton[PlayBoardSize.COL.getSize()][PlayBoardSize.ROW.getSize()];
+        initImageButtonPlayBoards(false);
 
         imgBtnSwapBoard = findViewById(R.id.btn_swap_board);
         imgBtnSwapBoard.setTag("false");
@@ -92,8 +93,6 @@ public class TrainingDetailsActivity extends HeaderActivity {
 
         setSpeaker(MediaStatus.valueOf(imgBtnSpeaker.getTag().toString()));
         setMusic(MediaStatus.valueOf(imgBtnMusic.getTag().toString()));
-
-        buildTurnEvent(currentTurn);
     }
 
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
@@ -114,10 +113,10 @@ public class TrainingDetailsActivity extends HeaderActivity {
     private void setSwapBoardOnClick() {
         if (imgBtnSwapBoard.getTag().equals("true")) {
             imgBtnSwapBoard.setTag("false");
-            imagePlayBoards = mapImageButtonPlayBoard(false);
+            initImageButtonPlayBoards(false);
         } else {
             imgBtnSwapBoard.setTag("true");
-            imagePlayBoards = mapImageButtonPlayBoard(true);
+            initImageButtonPlayBoards(true);
         }
 
         buildTurnEvent(currentTurn);
@@ -133,46 +132,33 @@ public class TrainingDetailsActivity extends HeaderActivity {
         startActivity(intent);
     }
 
-    public ImageButton[][] mapImageButtonPlayBoard(boolean isSwap) {
-        ImageButton[][] imageButtons = PlayBoardSupport.init(this);
-        for (int col = 0; col < imageButtons.length; col++) {
-            for (int row = 0; row < imageButtons[0].length; row++) {
-                int i;
-                int j;
-                if (isSwap) {
-                    i = imageButtons.length - 1 - col;
-                    j = imageButtons[0].length - 1 - row;
-                } else {
-                    i = col;
-                    j = row;
-                }
+    public void initImageButtonPlayBoards(boolean isSwap) {
+        for (int col = 0; col < imagePlayBoards.length; col++) {
+            for (int row = 0; row < imagePlayBoards[0].length; row++) {
+                int c = isSwap ? imagePlayBoards.length - 1 - col : col;
+                int r = isSwap ? imagePlayBoards[0].length - 1 - row : row;
+
                 @SuppressLint("DiscouragedApi")
                 int resourceId = getResources().getIdentifier(
-                        "img_btn_position_" + i + "_" + j,
+                        "img_btn_position_" + c + "_" + r,
                         "id",
                         getPackageName()
                 );
-                imageButtons[col][row] = findViewById(resourceId);
-                imageButtons[col][row].setTag(col + "-" + row);
+                imagePlayBoards[col][row] = findViewById(resourceId);
+                imagePlayBoards[col][row].setTag(col + "-" + row);
 
-                imageButtons[col][row].setOnClickListener(this);
+                imagePlayBoards[col][row].setOnClickListener(this);
             }
         }
-        return imageButtons;
     }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    public void setImageButtonPlayBoard(PlayBoardDTO playBoardDTO, PieceDTO movingPieceDTO) {
-        PlayBoardSupport.setImageButtonPlayBoard(this, imagePlayBoards, playBoardDTO, movingPieceDTO);
-    }
-
 
     public void move(Long turn) {
         if (trainingDetailDTO != null) {
             MoveHistoryDTO moveHistoryDTO = trainingDetailDTO.getMoveHistoryDTOs().get(turn);
             if (moveHistoryDTO != null) {
                 tvMoveDescription.setText(moveHistoryDTO.getDescription());
-                setImageButtonPlayBoard(moveHistoryDTO.getPlayBoardDTO(), moveHistoryDTO.getMovingPieceDTO());
+//                setImageButtonPlayBoard(moveHistoryDTO.getPlayBoardDTO(), moveHistoryDTO.getMovingPieceDTO());
+                PlayBoardSupport.setImageButtonPlayBoard(this,imagePlayBoards, moveHistoryDTO);
             }
         } else {
             tvMoveDescription.setText(null);
@@ -181,7 +167,8 @@ public class TrainingDetailsActivity extends HeaderActivity {
 
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     public void buildTurnEvent(Long turn) {
-        tvTurn.setText(turn + "/" + (trainingDetailDTO != null ? trainingDetailDTO.getTotalTurn() : 0));
+        int totalTurn = trainingDetailDTO != null ? (int) (trainingDetailDTO.getTotalTurn() - 1) : 0;
+        tvTurn.setText(turn + "/" + totalTurn);
         move(turn);
 
         imgBtnNextTurn.setEnabled(true);
@@ -190,39 +177,35 @@ public class TrainingDetailsActivity extends HeaderActivity {
         imgBtnPreviousTurn.setBackground(getDrawable(R.drawable.previous_turn));
 
         if (turn == 0) {
-            PlayBoardSupport.copyImageButtonDrawables(startPlayBoards, imagePlayBoards);
             imgBtnPreviousTurn.setEnabled(false);
             imgBtnPreviousTurn.setBackground(getDrawable(R.drawable.previous_turn_disable));
-        } else if (turn == (trainingDetailDTO != null ? trainingDetailDTO.getTotalTurn() : 0)) {
+        } else if (turn == totalTurn) {
             imgBtnNextTurn.setEnabled(false);
             imgBtnNextTurn.setBackground(getDrawable(R.drawable.next_turn_disable));
-        } else {
-            imagePlayBoards[0][1].setImageResource(R.drawable.black_soldier);
         }
     }
 
     private void callFindTrainingDetailsAPI(Long trainingId) {
         String tag = "Training-findDetails";
         Call<TrainingDetailDTO> call = trainingAPI.findDetailsById(trainingId);
+        Log.d(tag, "called api");
         call.enqueue(new Callback<TrainingDetailDTO>() {
             @Override
             public void onResponse(Call<TrainingDetailDTO> call, Response<TrainingDetailDTO> response) {
                 Log.d(tag, "Response code: " + response.code());
                 if (response.isSuccessful()) {
                     trainingDetailDTO = response.body();
+                    buildTurnEvent(currentTurn);
                 } else {
-                    Log.e(tag, "Response not successful");
+                    Log.d(tag, "Response not successful");
                 }
             }
 
             @Override
             public void onFailure(Call<TrainingDetailDTO> call, Throwable throwable) {
-                Log.e(tag, "API call failed", throwable);
+                Log.d(tag, "API call failed", throwable);
                 call.cancel();
             }
         });
-
     }
-
-
 }
