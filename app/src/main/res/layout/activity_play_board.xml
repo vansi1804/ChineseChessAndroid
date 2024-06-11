@@ -26,46 +26,55 @@
             <ImageButton
                 android:id="@+id/img_btn_position_0_0"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_chariot"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_1_0"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_horse"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_2_0"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_elephant"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_3_0"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_guard"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_4_0"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_general"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_5_0"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_guard"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_6_0"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_elephant"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_7_0"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_horse"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_8_0"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_chariot"
                 tools:ignore="ContentDescription"/>
         </LinearLayout>
 
@@ -137,6 +146,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_1_2"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_cannon"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -167,6 +177,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_7_2"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_cannon"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -185,6 +196,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_0_3"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_soldier"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -195,6 +207,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_2_3"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_soldier"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -205,6 +218,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_4_3"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_soldier"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -215,6 +229,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_6_3"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_soldier"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -225,6 +240,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_8_3"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/black_soldier"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
 
@@ -345,6 +361,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_0_6"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_soldier"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -355,6 +372,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_2_6"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_soldier"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -365,6 +383,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_4_6"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_soldier"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -375,6 +394,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_6_6"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_soldier"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -385,6 +405,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_8_6"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_soldier"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
 
@@ -403,6 +424,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_1_7"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_cannon"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -433,6 +455,7 @@
             <ImageButton
                 android:id="@+id/img_btn_position_7_7"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_cannon"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -504,46 +527,55 @@
             <ImageButton
                 android:id="@+id/img_btn_position_0_9"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_chariot"
                 tools:ignore="ContentDescription"/>
 
             <ImageButton
                 android:id="@+id/img_btn_position_1_9"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_horse"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_2_9"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_elephant"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_3_9"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_guard"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_4_9"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_general"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_5_9"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_guard"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_6_9"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_elephant"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_7_9"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_horse"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/img_btn_position_8_9"
                 style="@style/pieces_image_button_style"
+                android:src="@drawable/red_chariot"
                 tools:ignore="ContentDescription"/>
         </LinearLayout>
     </LinearLayout>

@@ -17,6 +17,7 @@ import com.example.chinesechesstrainning.api.RetrofitClient;
 import com.example.chinesechesstrainning.api.TrainingAPI;
 import com.example.chinesechesstrainning.enumerable.MediaStatus;
 import com.example.chinesechesstrainning.model.training.TrainingDTO;
+import com.example.chinesechesstrainning.model.training.TrainingDetailDTO;
 
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -30,8 +31,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TrainingActivity extends HeaderActivity {
-
     private TrainingAPI trainingAPI;
+
     private TextView tvTrainingTitle;
     private RecyclerView recyclerView;
     private List<TrainingDTO> trainingDTOs;
@@ -45,12 +46,7 @@ public class TrainingActivity extends HeaderActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
 
-        try {
-            trainingAPI = RetrofitClient.getRetrofitInstance().create(TrainingAPI.class);
-            Log.d("Retrofit", "Retrofit instance created successfully");
-        } catch (Exception e) {
-            Log.e("Retrofit", "Error creating Retrofit instance", e);
-        }
+        trainingAPI = RetrofitClient.getRetrofitInstance().create(TrainingAPI.class);
 
         imgBtnHome = findViewById(R.id.img_btn_home);
         imgBtnHome.setOnClickListener(this);
@@ -126,6 +122,7 @@ public class TrainingActivity extends HeaderActivity {
                 setMatchesIntoRecyclerView(trainingDTOs);
             } else {
                 Intent intent = new Intent(this, TrainingDetailsActivity.class);
+                intent.putExtra("source", "TrainingActivity");
                 intent.putExtra("title", title);
                 intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
                 intent.putExtra("music", imgBtnMusic.getTag().toString());
@@ -137,22 +134,24 @@ public class TrainingActivity extends HeaderActivity {
     }
 
     public void callFindAllTrainingsAPI() {
+        String tag = "Training-findAll";
+
         Call<List<TrainingDTO>> call = trainingAPI.findAll();
         call.enqueue(new Callback<List<TrainingDTO>>() {
             @Override
             public void onResponse(@NonNull Call<List<TrainingDTO>> call, @NonNull Response<List<TrainingDTO>> response) {
-                Log.d("Training-findAll", "Response code: " + response.code());
+                Log.d(tag, "Response code: " + response.code());
                 if (response.isSuccessful()) {
                     trainingDTOs = response.body();
                     setMatchesIntoRecyclerView(trainingDTOs);
                 } else {
-                    Log.e("Training-findAll", "Response not successful");
+                    Log.e(tag, "Response not successful");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<TrainingDTO>> call, @NonNull Throwable throwable) {
-                Log.e("Training-findAll", "API call failed", throwable);
+                Log.e(tag, "API call failed", throwable);
                 call.cancel();
             }
         });
