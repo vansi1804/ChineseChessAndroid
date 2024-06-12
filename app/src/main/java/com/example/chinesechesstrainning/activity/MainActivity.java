@@ -12,6 +12,8 @@ import com.example.chinesechesstrainning.enumerable.MediaStatus;
 public class MainActivity extends HeaderActivity {
 
     private Button btnTraining;
+    private Button btnPlayWith2Player;
+    private Button btnPlayWithComputer;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -34,6 +36,12 @@ public class MainActivity extends HeaderActivity {
         btnTraining = findViewById(R.id.btn_training);
         btnTraining.setOnClickListener(this);
 
+        btnPlayWith2Player = findViewById(R.id.btn_play_with_2_player);
+        btnPlayWith2Player.setOnClickListener(this);
+
+        btnPlayWithComputer = findViewById(R.id.btn_play_with_computer);
+        btnPlayWithComputer.setOnClickListener(this);
+
         if (getIntent().getExtras() != null) {
             imgBtnSpeaker.setTag(getIntent().getExtras().getString("speaker"));
             imgBtnMusic.setTag(getIntent().getExtras().getString("music"));
@@ -48,17 +56,33 @@ public class MainActivity extends HeaderActivity {
         setMusic(MediaStatus.valueOf(imgBtnMusic.getTag().toString()));
     }
 
+
     @Override
     public void onClick(View v) {
         super.onClick(v);
         if (v == btnTraining) {
             trainingOnClick();
+        }else if (v == btnPlayWith2Player){
+            playWith2PlayerOnClick();
+        }else if (v == btnPlayWithComputer){
+            playWithComputerOnClick();
         }
     }
 
     @Override
     protected void setBackOnClick() {
 
+    }
+
+    private void playWithComputerOnClick() {
+    }
+
+    private void playWith2PlayerOnClick() {
+        Intent intent = new Intent(this, MatchActivity.class);
+        intent.putExtra("source", "MainActivity");
+        intent.putExtra("speaker", imgBtnSpeaker.getTag().toString());
+        intent.putExtra("music", imgBtnMusic.getTag().toString());
+        startActivity(intent);
     }
 
     public void trainingOnClick(){

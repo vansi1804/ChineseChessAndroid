@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:baselineAligned="false"
     android:orientation="horizontal"
+    android:background="@color/teal_700"
     android:weightSum="2">
 
     <LinearLayout
@@ -17,25 +18,25 @@
         tools:ignore="NestedWeights">
 
         <TextView
-            android:id="@+id/player1"
+            android:id="@+id/red_player"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
             android:background="@color/purple_700"
             android:gravity="center"
-            android:text="Player1"
+            android:text="Quân đỏ"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/player1_score"
+            android:id="@+id/red_player_score"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.8"
             android:gravity="center"
             android:text="0"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -49,25 +50,25 @@
         tools:ignore="NestedWeights">
 
         <TextView
-            android:id="@+id/player2"
+            android:id="@+id/black_player"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
             android:background="@color/purple_700"
             android:gravity="center"
-            android:text="Player2"
+            android:text="Quân đen"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/player2_score"
+            android:id="@+id/black_player_score"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.8"
             android:gravity="center"
             android:text="0"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 </LinearLayout>

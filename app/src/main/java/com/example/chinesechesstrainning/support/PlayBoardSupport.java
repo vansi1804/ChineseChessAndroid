@@ -9,6 +9,8 @@ import com.example.chinesechesstrainning.model.PieceDTO;
 import com.example.chinesechesstrainning.model.PlayBoardDTO;
 import com.example.chinesechesstrainning.model.move.MoveHistoryDTO;
 
+import retrofit2.Callback;
+
 public class PlayBoardSupport {
 
     public static void setImageButtonPlayBoard(Context context, ImageButton[][] imagePlayBoards, PlayBoardDTO playBoardDTO, PieceDTO movingPieceDTO) {
@@ -25,22 +27,18 @@ public class PlayBoardSupport {
                 if (piece != null) {
                     piece.setImageSource();
                     Log.d("piece state", piece.toString());
-                    button.setImageResource(piece.getImageSource());
+                    button.setBackgroundResource(piece.getImageSource());
                     if (movingPieceDTO != null && piece.getId() == movingPieceDTO.getId()) {
-                        button.setBackgroundResource(R.drawable.move);
+                        button.setImageResource(R.drawable.move);
                     }
                 } else if (movingPieceDTO != null && col == movingPieceDTO.getCurrentCol() && row == movingPieceDTO.getCurrentRow()) {
-                    button.setBackgroundResource(R.drawable.move);
+                    button.setImageResource(R.drawable.move);
                 }
             }
         }
     }
 
-    public static void setImageButtonPlayBoard(Context context, ImageButton[][] imagePlayBoards, MoveHistoryDTO moveHistoryDTO) {
-        PlayBoardDTO playBoardDTO = moveHistoryDTO.getPlayBoardDTO();
-        PieceDTO movingPieceDTO = moveHistoryDTO.getMovingPieceDTO();
-        PieceDTO generalBeingChecked = moveHistoryDTO.getCheckedGeneralPieceDTO();
-
+    public static void setImageButtonPlayBoard(Context context, ImageButton[][] imagePlayBoards, PlayBoardDTO playBoardDTO, PieceDTO movingPieceDTO, PieceDTO generalBeingChecked) {
         for (int col = 0; col < imagePlayBoards.length; col++) {
             for (int row = 0; row < imagePlayBoards[0].length; row++) {
                 imagePlayBoards[col][row].setImageDrawable(null);
@@ -54,7 +52,7 @@ public class PlayBoardSupport {
                     if (movingPieceDTO != null && piece.getId() == movingPieceDTO.getId()) {
                         imagePlayBoards[col][row].setImageResource(R.drawable.move);
                     }
-                    if (generalBeingChecked != null && piece.getId() == generalBeingChecked.getId()){
+                    if (generalBeingChecked != null && piece.getId() == generalBeingChecked.getId()) {
                         imagePlayBoards[col][row].setImageResource(R.drawable.checking_general);
                     }
                 } else if (movingPieceDTO != null && col == movingPieceDTO.getCurrentCol() && row == movingPieceDTO.getCurrentRow()) {
@@ -63,4 +61,21 @@ public class PlayBoardSupport {
             }
         }
     }
+
+    public static void clearImage(ImageButton[][] imagePlayBoards) {
+        for (int col = 0; col < imagePlayBoards.length; col++) {
+            for (int row = 0; row < imagePlayBoards[0].length; row++) {
+                imagePlayBoards[col][row].setImageDrawable(null);
+            }
+        }
+    }
+
+    public static void setEnable(ImageButton[][] imagePlayBoards, boolean isEnable) {
+        for (int col = 0; col < imagePlayBoards.length; col++) {
+            for (int row = 0; row < imagePlayBoards[0].length; row++) {
+                imagePlayBoards[col][row].setEnabled(isEnable);
+            }
+        }
+    }
+
 }

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PieceDTO implements Serializable {
 
-    private long id;
+    private int id;
     private String name;
     private boolean red;
     private int currentCol;
@@ -45,6 +45,15 @@ public class PieceDTO implements Serializable {
         pieceImageMap.put("CANNON_black", R.drawable.black_cannon);
         pieceImageMap.put("SOLDIER_black", R.drawable.black_soldier);
     }
+
+//    public PieceDTO(PieceDTO pieceDTO) {
+//        setId(pieceDTO.getId());
+//        setName(pieceDTO.getName());
+//        setCurrentCol(pieceDTO.getCurrentCol());
+//        setCurrentRow(pieceDTO.getCurrentRow());
+//        setRed(pieceDTO.isRed());
+//        setImageSource();
+//    }
 
     public void setImageSource() {
         String pieceKey = name.toUpperCase() + "_" + (red ? "red" : "black");

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MoveHistoryDTO extends MoveDetailDTO {
+public class MoveHistoryDTO extends MoveResponseDTO {
 
     private long turn;
 

@@ -1,4 +1,4 @@
-package com.example.chinesechesstrainning.service.media.Speaker;
+package com.example.chinesechesstrainning.service.media.speaker;
 
 import com.example.chinesechesstrainning.service.media.MediaService;
 

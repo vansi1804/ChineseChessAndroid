@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MoveDetailDTO implements Serializable {
+public class MoveResponseDTO implements Serializable {
 
     private PieceDTO movingPieceDTO;
 

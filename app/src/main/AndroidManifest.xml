@@ -21,22 +21,22 @@
             android:exported="true"
             tools:ignore="ExportedService" />
         <service
-            android:name=".service.media.Speaker.MoveSpeakerService"
+            android:name=".service.media.speaker.CheckSpeakerService"
             android:enabled="true"
             android:exported="true"
             tools:ignore="ExportedService" />
         <service
-            android:name=".service.media.Speaker.CheckSpeakerService"
+            android:name=".service.media.speaker.CaptureSpeakerService"
             android:enabled="true"
             android:exported="true"
             tools:ignore="ExportedService" />
         <service
-            android:name=".service.media.Speaker.CaptureSpeakerService"
+            android:name=".service.media.speaker.CheckmateSpeakerService"
             android:enabled="true"
             android:exported="true"
             tools:ignore="ExportedService" />
         <service
-            android:name=".service.media.Speaker.CheckmateSpeakerService"
+            android:name=".service.media.speaker.MoveSpeakerService"
             android:enabled="true"
             android:exported="true"
             tools:ignore="ExportedService" />
@@ -54,10 +54,13 @@
         </activity>
         <activity
             android:name=".activity.TrainingDetailsActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activity.TrainingActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
+        <activity
+            android:name=".activity.MatchActivity"
+            android:exported="true" />
 
     </application>
 

@@ -17,10 +17,10 @@ import com.example.chinesechesstrainning.enumerable.MediaStatus;
 import com.example.chinesechesstrainning.enumerable.PlayBoardSize;
 import com.example.chinesechesstrainning.model.move.MoveHistoryDTO;
 import com.example.chinesechesstrainning.model.training.TrainingDetailDTO;
-import com.example.chinesechesstrainning.service.media.Speaker.CaptureSpeakerService;
-import com.example.chinesechesstrainning.service.media.Speaker.CheckSpeakerService;
-import com.example.chinesechesstrainning.service.media.Speaker.CheckmateSpeakerService;
-import com.example.chinesechesstrainning.service.media.Speaker.MoveSpeakerService;
+import com.example.chinesechesstrainning.service.media.speaker.CaptureSpeakerService;
+import com.example.chinesechesstrainning.service.media.speaker.CheckSpeakerService;
+import com.example.chinesechesstrainning.service.media.speaker.CheckmateSpeakerService;
+import com.example.chinesechesstrainning.service.media.speaker.MoveSpeakerService;
 import com.example.chinesechesstrainning.support.PlayBoardSupport;
 
 import retrofit2.Call;
@@ -29,8 +29,9 @@ import retrofit2.Response;
 
 public class TrainingDetailsActivity extends HeaderActivity {
     private TrainingAPI trainingAPI;
+
     private TextView tvTrainingTitle;
-    private static ImageButton[][] imagePlayBoards;
+    private static ImageButton[][] imgBtnPlayBoards;
     private ImageButton imgBtnSwapBoard;
     private Long currentTurn = 0L;
     private TextView tvTurn;
@@ -62,7 +63,7 @@ public class TrainingDetailsActivity extends HeaderActivity {
         tvTrainingTitle = findViewById(R.id.tv_training_title);
         tvTrainingTitle.setSelected(true);
 
-        imagePlayBoards = new ImageButton[PlayBoardSize.COL.getSize()][PlayBoardSize.ROW.getSize()];
+        imgBtnPlayBoards = new ImageButton[PlayBoardSize.COL.getSize()][PlayBoardSize.ROW.getSize()];
         initImageButtonPlayBoards(false);
 
         imgBtnSwapBoard = findViewById(R.id.btn_swap_board);
@@ -130,10 +131,10 @@ public class TrainingDetailsActivity extends HeaderActivity {
     }
 
     public void initImageButtonPlayBoards(boolean isSwap) {
-        for (int col = 0; col < imagePlayBoards.length; col++) {
-            for (int row = 0; row < imagePlayBoards[0].length; row++) {
-                int c = isSwap ? imagePlayBoards.length - 1 - col : col;
-                int r = isSwap ? imagePlayBoards[0].length - 1 - row : row;
+        for (int col = 0; col < imgBtnPlayBoards.length; col++) {
+            for (int row = 0; row < imgBtnPlayBoards[0].length; row++) {
+                int c = isSwap ? imgBtnPlayBoards.length - 1 - col : col;
+                int r = isSwap ? imgBtnPlayBoards[0].length - 1 - row : row;
 
                 @SuppressLint("DiscouragedApi")
                 int resourceId = getResources().getIdentifier(
@@ -141,8 +142,7 @@ public class TrainingDetailsActivity extends HeaderActivity {
                         "id",
                         getPackageName()
                 );
-                imagePlayBoards[col][row] = findViewById(resourceId);
-                imagePlayBoards[col][row].setTag(col + "-" + row);
+                imgBtnPlayBoards[col][row] = findViewById(resourceId);
             }
         }
     }
@@ -158,10 +158,10 @@ public class TrainingDetailsActivity extends HeaderActivity {
                             startService(new Intent(this, CaptureSpeakerService.class));
                         }
                         if (moveHistoryDTO.getCheckedGeneralPieceDTO() != null) {
-                            if (moveHistoryDTO.isCheckmateState()){
+                            if (moveHistoryDTO.isCheckmateState()) {
                                 Log.d("TrainingDetailsActivity", "Starting CheckmateSpeakerService");
                                 startService(new Intent(this, CheckmateSpeakerService.class));
-                            }else{
+                            } else {
                                 Log.d("TrainingDetailsActivity", "Starting CheckSpeakerService");
                                 startService(new Intent(this, CheckSpeakerService.class));
                             }
@@ -173,7 +173,7 @@ public class TrainingDetailsActivity extends HeaderActivity {
                 }
 
                 tvMoveDescription.setText(moveHistoryDTO.getDescription());
-                PlayBoardSupport.setImageButtonPlayBoard(this, imagePlayBoards, moveHistoryDTO);
+                PlayBoardSupport.setImageButtonPlayBoard(this, imgBtnPlayBoards, moveHistoryDTO.getPlayBoardDTO(), moveHistoryDTO.getMovingPieceDTO(), moveHistoryDTO.getCheckedGeneralPieceDTO());
             }
         } else {
             tvMoveDescription.setText(null);
