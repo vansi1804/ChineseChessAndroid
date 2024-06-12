@@ -28,5 +28,5 @@ public class MoveDetailDTO implements Serializable {
 
     private PieceDTO checkedGeneralPieceDTO;
 
-    private boolean isCheckmateState;
+    private boolean checkmateState;
 }

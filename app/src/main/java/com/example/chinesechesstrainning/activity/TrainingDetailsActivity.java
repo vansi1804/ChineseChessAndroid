@@ -15,11 +15,12 @@ import com.example.chinesechesstrainning.api.RetrofitClient;
 import com.example.chinesechesstrainning.api.TrainingAPI;
 import com.example.chinesechesstrainning.enumerable.MediaStatus;
 import com.example.chinesechesstrainning.enumerable.PlayBoardSize;
-import com.example.chinesechesstrainning.model.PieceDTO;
-import com.example.chinesechesstrainning.model.PlayBoardDTO;
 import com.example.chinesechesstrainning.model.move.MoveHistoryDTO;
 import com.example.chinesechesstrainning.model.training.TrainingDetailDTO;
-import com.example.chinesechesstrainning.service.media.SpeakerService;
+import com.example.chinesechesstrainning.service.media.Speaker.CaptureSpeakerService;
+import com.example.chinesechesstrainning.service.media.Speaker.CheckSpeakerService;
+import com.example.chinesechesstrainning.service.media.Speaker.CheckmateSpeakerService;
+import com.example.chinesechesstrainning.service.media.Speaker.MoveSpeakerService;
 import com.example.chinesechesstrainning.support.PlayBoardSupport;
 
 import retrofit2.Call;
@@ -102,10 +103,6 @@ public class TrainingDetailsActivity extends HeaderActivity {
         if (v == imgBtnSwapBoard) {
             setSwapBoardOnClick();
         } else if (v == imgBtnPreviousTurn || v == imgBtnNextTurn) {
-            if (MediaStatus.ON.equals(imgBtnSpeaker.getTag())) {
-                startService(new Intent(this, SpeakerService.class));
-            }
-
             buildTurnEvent((v == imgBtnPreviousTurn) ? --currentTurn : ++currentTurn);
         }
     }
@@ -146,8 +143,6 @@ public class TrainingDetailsActivity extends HeaderActivity {
                 );
                 imagePlayBoards[col][row] = findViewById(resourceId);
                 imagePlayBoards[col][row].setTag(col + "-" + row);
-
-                imagePlayBoards[col][row].setOnClickListener(this);
             }
         }
     }
@@ -156,9 +151,29 @@ public class TrainingDetailsActivity extends HeaderActivity {
         if (trainingDetailDTO != null) {
             MoveHistoryDTO moveHistoryDTO = trainingDetailDTO.getMoveHistoryDTOs().get(turn);
             if (moveHistoryDTO != null) {
+                if (MediaStatus.ON.equals(imgBtnSpeaker.getTag())) {
+                    if (moveHistoryDTO.getDeadPieceDTO() != null || moveHistoryDTO.getCheckedGeneralPieceDTO() != null) {
+                        if (moveHistoryDTO.getDeadPieceDTO() != null) {
+                            Log.d("TrainingDetailsActivity", "Starting CaptureSpeakerService");
+                            startService(new Intent(this, CaptureSpeakerService.class));
+                        }
+                        if (moveHistoryDTO.getCheckedGeneralPieceDTO() != null) {
+                            if (moveHistoryDTO.isCheckmateState()){
+                                Log.d("TrainingDetailsActivity", "Starting CheckmateSpeakerService");
+                                startService(new Intent(this, CheckmateSpeakerService.class));
+                            }else{
+                                Log.d("TrainingDetailsActivity", "Starting CheckSpeakerService");
+                                startService(new Intent(this, CheckSpeakerService.class));
+                            }
+                        }
+                    } else {
+                        Log.d("TrainingDetailsActivity", "Starting MoveSpeakerService");
+                        startService(new Intent(this, MoveSpeakerService.class));
+                    }
+                }
+
                 tvMoveDescription.setText(moveHistoryDTO.getDescription());
-//                setImageButtonPlayBoard(moveHistoryDTO.getPlayBoardDTO(), moveHistoryDTO.getMovingPieceDTO());
-                PlayBoardSupport.setImageButtonPlayBoard(this,imagePlayBoards, moveHistoryDTO);
+                PlayBoardSupport.setImageButtonPlayBoard(this, imagePlayBoards, moveHistoryDTO);
             }
         } else {
             tvMoveDescription.setText(null);

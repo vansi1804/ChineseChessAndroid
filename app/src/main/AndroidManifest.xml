@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,17 +11,32 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.ChineseChessTrainingAndroid"
-        tools:targetApi="31"
-        tools:ignore="ObsoleteSdkInt">
+        android:usesCleartextTraffic="true"
+        tools:ignore="ObsoleteSdkInt"
+        tools:targetApi="31">
         <service
-            android:name=".service.media.MusicService"
+            android:name=".service.media.music.MusicService"
             android:enabled="true"
             android:exported="true"
             tools:ignore="ExportedService" />
         <service
-            android:name=".service.media.SpeakerService"
+            android:name=".service.media.Speaker.MoveSpeakerService"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
+            android:name=".service.media.Speaker.CheckSpeakerService"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
+            android:name=".service.media.Speaker.CaptureSpeakerService"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
+            android:name=".service.media.Speaker.CheckmateSpeakerService"
             android:enabled="true"
             android:exported="true"
             tools:ignore="ExportedService" />
@@ -39,12 +54,10 @@
         </activity>
         <activity
             android:name=".activity.TrainingDetailsActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
-                android:name=".activity.TrainingActivity"
-                android:exported="true">
-        </activity>
+            android:name=".activity.TrainingActivity"
+            android:exported="true"></activity>
 
     </application>
 

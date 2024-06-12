@@ -6,26 +6,28 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.util.Log;
 
 public abstract class MediaService extends Service {
-    protected MediaPlayer mediaPlayer; // MediaPlayer instance to play the audio
-    private AudioManager audioManager; // AudioManager to manage volume
+    protected MediaPlayer mediaPlayer;
+    private AudioManager audioManager;
+    private static final String TAG = "MediaService";
 
     @Override
     public IBinder onBind(Intent intent) {
-        // Service binding is not supported in this implementation
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        // Get the AudioManager system service
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        Log.d(TAG, "created");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "started");
         // Set the device's media volume to the maximum
         setMaxVolume();
 
@@ -48,7 +50,7 @@ public abstract class MediaService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // Stop the MediaPlayer and release its resources
+        Log.d(TAG, "destroyed");
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -59,17 +61,12 @@ public abstract class MediaService extends Service {
     // Method to set the device's media volume to maximum
     private void setMaxVolume() {
         if (audioManager != null) {
-            // Get the maximum volume level for the media stream
             int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-
-            // Set the device's media volume to the maximum level
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
         }
     }
 
-    // Abstract method to be implemented by subclasses to provide the audio resource ID
     protected abstract int getAudioResourceId();
 
-    // Abstract method to be implemented by subclasses to specify if the audio should loop
     protected abstract boolean isLooping();
 }

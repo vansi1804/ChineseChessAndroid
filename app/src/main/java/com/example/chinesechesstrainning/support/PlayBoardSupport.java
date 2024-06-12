@@ -3,8 +3,8 @@ package com.example.chinesechesstrainning.support;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ImageButton;
+
 import com.example.chinesechesstrainning.R;
-import com.example.chinesechesstrainning.enumerable.PlayBoardSize;
 import com.example.chinesechesstrainning.model.PieceDTO;
 import com.example.chinesechesstrainning.model.PlayBoardDTO;
 import com.example.chinesechesstrainning.model.move.MoveHistoryDTO;

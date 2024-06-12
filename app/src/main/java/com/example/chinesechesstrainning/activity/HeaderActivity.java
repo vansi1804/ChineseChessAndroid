@@ -7,10 +7,8 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chinesechesstrainning.R;
-import com.example.chinesechesstrainning.activity.MainActivity;
 import com.example.chinesechesstrainning.enumerable.MediaStatus;
-import com.example.chinesechesstrainning.service.media.MusicService;
-import com.example.chinesechesstrainning.service.media.SpeakerService;
+import com.example.chinesechesstrainning.service.media.music.MusicService;
 
 public abstract class HeaderActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,7 +45,6 @@ public abstract class HeaderActivity extends AppCompatActivity implements View.O
             imgBtnSpeaker.setTag(MediaStatus.ON);
         } else {
             imgBtnSpeaker.setBackgroundResource(R.drawable.speaker_off);
-            stopService(new Intent(this, SpeakerService.class));
             imgBtnSpeaker.setTag(MediaStatus.OFF);
         }
     }
